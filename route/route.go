@@ -23,6 +23,12 @@ var routes = Routes{
         "/getcards",
         trello.GetCards,
     },
+    Route{
+        "AddCard",
+        "POST",
+        "/addcard",
+        trello.AddCard,
+    },
 }
 
 func NewRouter() *mux.Router {

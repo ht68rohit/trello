@@ -43,6 +43,41 @@ actions:
         url:
           help: The url of card.
           type: string
+  add_card:
+    help: Create card.
+    http:
+      port: 3000
+      method: post
+      path: /addcard
+      contentType: application/json
+    arguments:
+      name:
+        type: string
+        in: requestBody
+        required: true
+        help: The name of card to be added.
+      description:
+        type: string
+        in: requestBody
+        help: The description for the card. 
+      list_id:
+        type: string
+        in: requestBody
+        required: true
+        help: The ID of list where card has to add. 
+    output:
+      type: string
+      contentType: application/json
+      properties:
+        success:
+          help: Returns true/false.
+          type: string
+        message:
+          help: The success message after adding card into list or error message if occurred.
+          type: string
+        status_code:
+          help: Returns http status code.
+          type: int
 environment:
   API_KEY:
     type: string

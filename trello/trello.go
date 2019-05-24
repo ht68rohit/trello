@@ -9,9 +9,18 @@ import (
 	"os"
 )
 
-//TrelloArgs
+//TrelloArgs struct
 type TrelloArgs struct {
-	BoardID string `json:"board_id,omitempty"`
+	BoardID     string `json:"board_id,omitempty"`
+	ListID      string `json:"list_id,omitempty"`
+	CardName    string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+}
+
+type Message struct {
+	Success    string `json:"success"`
+	Message    string `json:"message"`
+	StatusCode int    `json:"status_code"`
 }
 
 //GetCards trello
@@ -50,4 +59,34 @@ func GetCards(responseWriter http.ResponseWriter, request *http.Request) {
 	}
 	bytes, _ := json.Marshal(trelloCards)
 	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+}
+
+//AddCard trello
+func AddCard(responseWriter http.ResponseWriter, request *http.Request) {
+
+	var apiKey = os.Getenv("API_KEY")
+	var token = os.Getenv("ACCESS_TOKEN")
+
+	decoder := json.NewDecoder(request.Body)
+
+	var card TrelloArgs
+	decodeErr := decoder.Decode(&card)
+	if decodeErr != nil {
+		result.WriteErrorResponse(responseWriter, decodeErr)
+		return
+	}
+
+	client := trello.NewClient(apiKey, token)
+
+	list, err := client.GetList(card.ListID, trello.Defaults())
+	if err != nil {
+		result.WriteErrorResponse(responseWriter, decodeErr)
+		return
+	}
+	list.AddCard(&trello.Card{Name: card.CardName, Desc: card.Description}, trello.Defaults())
+
+	message := Message{"true", "Card added successfully", http.StatusOK}
+	bytes, _ := json.Marshal(message)
+	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+
 }
