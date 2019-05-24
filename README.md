@@ -33,8 +33,10 @@ $ omg run get_cards -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=
 ```sh
 $ omg run add_card -a name=<CARD_NAME> -a description=<DESCRIPTION> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e TOKEN=<TOKEN>
 ```
-
-
+##### Move card to list
+```sh
+$ omg run add_card -a name=<CARD_NAME> -a description=<DESCRIPTION> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e TOKEN=<TOKEN>
+```
 ## License
 ### [MIT](https://choosealicense.com/licenses/mit/)
 

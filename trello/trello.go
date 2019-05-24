@@ -13,6 +13,7 @@ import (
 type TrelloArgs struct {
 	BoardID     string `json:"board_id,omitempty"`
 	ListID      string `json:"list_id,omitempty"`
+	CardID      string `json:"card_id,omitempty"`
 	CardName    string `json:"name,omitempty"`
 	Description string `json:"description,omitempty"`
 }
@@ -84,6 +85,41 @@ func AddCard(responseWriter http.ResponseWriter, request *http.Request) {
 		return
 	}
 	list.AddCard(&trello.Card{Name: card.CardName, Desc: card.Description}, trello.Defaults())
+
+	message := Message{"true", "Card added successfully", http.StatusOK}
+	bytes, _ := json.Marshal(message)
+	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+
+}
+
+//MoveCard trello
+func MoveCard(responseWriter http.ResponseWriter, request *http.Request) {
+
+	var apiKey = os.Getenv("API_KEY")
+	var token = os.Getenv("ACCESS_TOKEN")
+
+	decoder := json.NewDecoder(request.Body)
+
+	var param TrelloArgs
+	decodeErr := decoder.Decode(&param)
+	if decodeErr != nil {
+		result.WriteErrorResponse(responseWriter, decodeErr)
+		return
+	}
+
+	client := trello.NewClient(apiKey, token)
+
+	card, err := client.GetCard(param.CardID, trello.Defaults())
+	if err != nil {
+		result.WriteErrorResponse(responseWriter, err)
+		return
+	}
+
+	moveErr := card.MoveToList(param.ListID, trello.Defaults())
+	if moveErr != nil {
+		result.WriteErrorResponse(responseWriter, moveErr)
+		return
+	}
 
 	message := Message{"true", "Card added successfully", http.StatusOK}
 	bytes, _ := json.Marshal(message)

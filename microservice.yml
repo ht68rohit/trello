@@ -66,7 +66,38 @@ actions:
         required: true
         help: The ID of list where card has to add. 
     output:
-      type: string
+      type: object
+      contentType: application/json
+      properties:
+        success:
+          help: Returns true/false.
+          type: string
+        message:
+          help: The success message after adding card into list or error message if occurred.
+          type: string
+        status_code:
+          help: Returns http status code.
+          type: int
+  move_card:
+    help: Move card from one list to another.
+    http:
+      port: 3000
+      method: post
+      path: /movecard
+      contentType: application/json
+    arguments:
+      card_id:
+        type: string
+        in: requestBody
+        required: true
+        help: The ID of card to move.
+      list_id:
+        type: string
+        in: requestBody
+        required: true
+        help: The ID of list where to move the card.
+    output:
+      type: object
       contentType: application/json
       properties:
         success:
