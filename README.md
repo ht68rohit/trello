@@ -27,7 +27,7 @@ omg build
 
 ##### Get Cards
 ```sh
-$ omg run get_cards -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<TOKEN>
+$ omg run get_cards -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
 ```
 
 ## License
