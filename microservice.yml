@@ -40,8 +40,17 @@ actions:
         pos:
           help: The position of card in list.
           type: int
+        shortUrl:
+              help: The url of card.
+              type: string
         url:
           help: The url of card.
+          type: string
+        idBoard:
+          help: The ID of board.
+          type: string
+        idList:
+          help: The ID of list.
           type: string
   add_card:
     help: Create card.
@@ -109,6 +118,53 @@ actions:
         status_code:
           help: Returns http status code.
           type: int
+  receive:
+    help: Start receiving newly added card details from board list.
+    events:
+      card:
+        help: Triggered anytime when any new card is added in list.
+        arguments:
+          board_id:
+            type: string
+            in: requestBody
+            required: true
+            help: The board ID to subscribe.
+          list_id:
+            type: string
+            in: requestBody
+            required: true
+            help: The list ID to subscribe the list.
+        http: 
+          port: 3000
+          subscribe:
+            method: post
+            path: /subscribe
+            contentType: application/json
+        output:
+          contentType: application/json
+          type: object
+          properties:
+            id:
+              help: The ID of card from list.
+              type: string
+            name:
+              help: The name of card.
+              type: string
+            pos:
+              help: The position of card in list.
+              type: int
+            shortUrl:
+              help: The url of card.
+              type: string
+            url:
+              help: The url of card.
+              type: string
+            idBoard:
+              help: The ID of board.
+              type: string
+            idList:
+              help: The ID of list.
+              type: string
 environment:
   API_KEY:
     type: string

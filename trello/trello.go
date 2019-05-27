@@ -1,13 +1,34 @@
 package trello
 
 import (
+	"context"
 	"encoding/json"
-	//"fmt"
+	"fmt"
 	trello "github.com/adlio/trello"
+	"github.com/cloudevents/sdk-go"
 	result "github.com/heaptracetechnology/microservice-trello/result"
+	"log"
 	"net/http"
+	"net/url"
 	"os"
+	"strings"
+	"time"
 )
+
+type Payload struct {
+	EventId     string     `json:"eventID"`
+	EventType   string     `json:"eventType"`
+	ContentType string     `json:"contentType"`
+	Data        TrelloArgs `json:"data"`
+}
+
+type Subscribe struct {
+	Data          TrelloArgs `json:"data"`
+	Endpoint      string     `json:"endpoint"`
+	Id            string     `json:"id"`
+	LastMessageId uint32
+	IsTesting     bool `json:"istesting"`
+}
 
 //TrelloArgs struct
 type TrelloArgs struct {
@@ -23,6 +44,16 @@ type Message struct {
 	Message    string `json:"message"`
 	StatusCode int    `json:"status_code"`
 }
+
+var Listener = make(map[string]Subscribe)
+var rtmStarted bool
+var newClient *trello.Client
+var board *trello.Board
+var flag bool
+var cards []*trello.Card
+var tempCards []*trello.Card
+var newCard *trello.Card
+var oldCards []*trello.Card
 
 //GetCards trello
 func GetCards(responseWriter http.ResponseWriter, request *http.Request) {
@@ -124,5 +155,144 @@ func MoveCard(responseWriter http.ResponseWriter, request *http.Request) {
 	message := Message{"true", "Card added successfully", http.StatusOK}
 	bytes, _ := json.Marshal(message)
 	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+
+}
+
+//SubscribeCard
+func SubscribeCard(responseWriter http.ResponseWriter, request *http.Request) {
+
+	var apiKey = os.Getenv("API_KEY")
+	var token = os.Getenv("ACCESS_TOKEN")
+
+	var sub Subscribe
+	decoder := json.NewDecoder(request.Body)
+	decodeError := decoder.Decode(&sub)
+	if decodeError != nil {
+		result.WriteErrorResponse(responseWriter, decodeError)
+		return
+	}
+
+	newClient = trello.NewClient(apiKey, token)
+
+	//BoardID
+	var err error
+	board, err = newClient.GetBoard(sub.Data.BoardID, trello.Defaults())
+	if err != nil {
+		result.WriteErrorResponse(responseWriter, err)
+		return
+	}
+
+	Listener[sub.Data.ListID] = sub
+	if !rtmStarted {
+		go RTSTrello()
+		rtmStarted = true
+	}
+
+	bytes, _ := json.Marshal("Subscribed")
+	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+}
+
+//RTSTrello function
+func RTSTrello() {
+	isTest := false
+	for {
+		if len(Listener) > 0 {
+			for ListID, Sub := range Listener {
+				go getMessageUpdates(ListID, Sub)
+				isTest = Sub.IsTesting
+			}
+		} else {
+			rtmStarted = false
+			break
+		}
+		time.Sleep(5 * time.Second)
+		if isTest {
+			break
+		}
+	}
+}
+
+func getMessageUpdates(listID string, sub Subscribe) {
+	var finalData []*trello.Card
+	lists, err := board.GetLists(trello.Defaults())
+
+	for _, list := range lists {
+
+		if list.ID == sub.Data.ListID {
+
+			cards, err = list.GetCards(trello.Defaults())
+
+			if len(oldCards) == 0 {
+				oldCards = cards
+			}
+
+			if len(oldCards) < len(cards) {
+
+				for _, card := range cards {
+					found := false
+					for _, oldCard := range oldCards {
+						if card.ID == oldCard.ID {
+							found = true
+							break
+						}
+					}
+					if !found {
+						finalData = append(finalData, card)
+					}
+				}
+
+			} else if len(oldCards) == len(cards) {
+				finalData = cards
+			}
+		}
+	}
+
+	s1 := strings.Split(sub.Endpoint, "//")
+	_, ip := s1[0], s1[1]
+	s := strings.Split(ip, ":")
+	_, port := s[0], s[1]
+	sub.Endpoint = "http://192.168.0.61:" + string(port)
+
+	contentType := "application/json"
+
+	t, err := cloudevents.NewHTTPTransport(
+		cloudevents.WithTarget(sub.Endpoint),
+		cloudevents.WithStructuredEncoding(),
+	)
+	if err != nil {
+		log.Printf("failed to create transport, %v", err)
+		return
+	}
+
+	c, err := cloudevents.NewClient(t,
+		cloudevents.WithTimeNow(),
+	)
+	if err != nil {
+		log.Printf("failed to create client, %v", err)
+		return
+	}
+
+	source, err := url.Parse(sub.Endpoint)
+	event := cloudevents.Event{
+		Context: cloudevents.EventContextV01{
+			EventID:     sub.Id,
+			EventType:   "card",
+			Source:      cloudevents.URLRef{URL: *source},
+			ContentType: &contentType,
+		}.AsV01(),
+		Data: finalData,
+	}
+
+	if len(oldCards) < len(cards) || flag == false {
+
+		Listener[listID] = sub
+		resp, err := c.Send(context.Background(), event)
+		if err != nil {
+			log.Printf("failed to send: %v", err)
+		}
+		fmt.Printf("Response: \n%s\n", resp)
+		oldCards = cards
+		flag = true
+	}
 
 }

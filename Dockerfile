@@ -4,6 +4,8 @@ RUN go get github.com/gorilla/mux
 
 RUN go get github.com/adlio/trello
 
+RUN go get github.com/cloudevents/sdk-go
+
 WORKDIR /go/src/github.com/heaptracetechnology/microservice-trello
 
 ADD . /go/src/github.com/heaptracetechnology/microservice-trello

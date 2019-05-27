@@ -35,6 +35,12 @@ var routes = Routes{
         "/movecard",
         trello.MoveCard,
     },
+    Route{
+        "SubscribeCard",
+        "POST",
+        "/subscribe",
+        trello.SubscribeCard,
+    },
 }
 
 func NewRouter() *mux.Router {
