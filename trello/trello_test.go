@@ -297,78 +297,6 @@ var _ = Describe("Move Card to list in Trello without card id", func() {
 	})
 })
 
-var _ = Describe("Subscribe trello for card without board ID", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
-	os.Setenv("ACCESS_TOKEN", accessToken)
-	os.Setenv("API_KEY", apiKey)
-
-	data := TrelloArgs{ListID: "5ce79caefa3395720556a9b0"}
-	sub := Subscribe{Endpoint: "https://webhook.site/3cee781d-0a87-4966-bdec-9635436294e9",
-		Id:        "1",
-		IsTesting: true,
-		Data:      data,
-	}
-	requestBody := new(bytes.Buffer)
-	err := json.NewEncoder(requestBody).Encode(sub)
-	if err != nil {
-		fmt.Println(" request err :", err)
-	}
-	req, err := http.NewRequest("POST", "/subscribe", requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(SubscribeCard)
-	handler.ServeHTTP(recorder, req)
-
-	Describe("Subscribe", func() {
-		Context("Subscribe", func() {
-			It("Should result http.StatusBadRequest", func() {
-				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
-			})
-		})
-	})
-})
-
-var _ = Describe("Subscribe trello for card", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
-	os.Setenv("ACCESS_TOKEN", accessToken)
-	os.Setenv("API_KEY", apiKey)
-
-	data := TrelloArgs{BoardID: "mbuiTPBq", ListID: "5ce79caefa3395720556a9b0"}
-	sub := Subscribe{Endpoint: "https://webhook.site/3cee781d-0a87-4966-bdec-9635436294e9",
-		Id:        "1",
-		IsTesting: true,
-		Data:      data,
-	}
-	requestBody := new(bytes.Buffer)
-	err := json.NewEncoder(requestBody).Encode(sub)
-	if err != nil {
-		fmt.Println(" request err :", err)
-	}
-	req, err := http.NewRequest("POST", "/subscribe", requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(SubscribeCard)
-	handler.ServeHTTP(recorder, req)
-
-	Describe("Subscribe", func() {
-		Context("Subscribe", func() {
-			It("Should result http.StatusOK", func() {
-				Expect(http.StatusOK).To(Equal(recorder.Code))
-			})
-		})
-	})
-})
-
 var _ = Describe("Copy Card to list in Trello with invalid param", func() {
 
 	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
@@ -490,6 +418,78 @@ var _ = Describe("Copy Card to list in Trello", func() {
 
 	Describe("copy card from list", func() {
 		Context("copy card", func() {
+			It("Should result http.StatusOK", func() {
+				Expect(http.StatusOK).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Subscribe trello for card without board ID", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	data := TrelloArgs{ListID: "5ce79caefa3395720556a9b0"}
+	sub := Subscribe{Endpoint: "https://webhook.site/3cee781d-0a87-4966-bdec-9635436294e9",
+		Id:        "1",
+		IsTesting: true,
+		Data:      data,
+	}
+	requestBody := new(bytes.Buffer)
+	err := json.NewEncoder(requestBody).Encode(sub)
+	if err != nil {
+		fmt.Println(" request err :", err)
+	}
+	req, err := http.NewRequest("POST", "/subscribe", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(SubscribeCard)
+	handler.ServeHTTP(recorder, req)
+
+	Describe("Subscribe", func() {
+		Context("Subscribe", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Subscribe trello for card", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	data := TrelloArgs{BoardID: "mbuiTPBq", ListID: "5ce79caefa3395720556a9b0"}
+	sub := Subscribe{Endpoint: "https://webhook.site/3cee781d-0a87-4966-bdec-9635436294e9",
+		Id:        "1",
+		IsTesting: true,
+		Data:      data,
+	}
+	requestBody := new(bytes.Buffer)
+	err := json.NewEncoder(requestBody).Encode(sub)
+	if err != nil {
+		fmt.Println(" request err :", err)
+	}
+	req, err := http.NewRequest("POST", "/subscribe", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(SubscribeCard)
+	handler.ServeHTTP(recorder, req)
+
+	Describe("Subscribe", func() {
+		Context("Subscribe", func() {
 			It("Should result http.StatusOK", func() {
 				Expect(http.StatusOK).To(Equal(recorder.Code))
 			})

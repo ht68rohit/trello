@@ -282,18 +282,13 @@ func getMessageUpdates(listID string, sub Subscribe) {
 
 	contentType := "application/json"
 
-	t, err := cloudevents.NewHTTPTransport(
-		cloudevents.WithTarget(sub.Endpoint),
-		cloudevents.WithStructuredEncoding(),
-	)
+	t, err := cloudevents.NewHTTPTransport(cloudevents.WithTarget(sub.Endpoint), cloudevents.WithStructuredEncoding())
 	if err != nil {
 		log.Printf("failed to create transport, %v", err)
 		return
 	}
 
-	c, err := cloudevents.NewClient(t,
-		cloudevents.WithTimeNow(),
-	)
+	c, err := cloudevents.NewClient(t, cloudevents.WithTimeNow())
 	if err != nil {
 		log.Printf("failed to create client, %v", err)
 		return
