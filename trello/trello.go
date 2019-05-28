@@ -157,6 +157,40 @@ func MoveCard(responseWriter http.ResponseWriter, request *http.Request) {
 
 }
 
+//CopyCard trello
+func CopyCard(responseWriter http.ResponseWriter, request *http.Request) {
+
+	var apiKey = os.Getenv("API_KEY")
+	var token = os.Getenv("ACCESS_TOKEN")
+
+	decoder := json.NewDecoder(request.Body)
+
+	var param TrelloArgs
+	decodeErr := decoder.Decode(&param)
+	if decodeErr != nil {
+		result.WriteErrorResponse(responseWriter, decodeErr)
+		return
+	}
+
+	client := trello.NewClient(apiKey, token)
+
+	card, err := client.GetCard(param.CardID, trello.Defaults())
+	if err != nil {
+		result.WriteErrorResponse(responseWriter, err)
+		return
+	}
+
+	copy, copyErr := card.CopyToList(param.ListID, trello.Defaults())
+	if copyErr != nil {
+		result.WriteErrorResponse(responseWriter, copyErr)
+		return
+	}
+
+	bytes, _ := json.Marshal(copy)
+	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+
+}
+
 //SubscribeCard
 func SubscribeCard(responseWriter http.ResponseWriter, request *http.Request) {
 

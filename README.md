@@ -35,7 +35,11 @@ $ omg run add_card -a name=<CARD_NAME> -a description=<DESCRIPTION> -a list_id=<
 ```
 ##### Move card to list
 ```sh
-$ omg run add_card -a name=<CARD_NAME> -a description=<DESCRIPTION> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+$ omg run move_card -a card_id=<CARD_ID> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```
+##### Copy card to list
+```sh
+$ omg run copy_card -a card_id=<CARD_ID> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
 ```
 ##### Subscribe card
 ```sh

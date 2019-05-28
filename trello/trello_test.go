@@ -400,3 +400,131 @@ var _ = Describe("Subscribe trello for card", func() {
 		})
 	})
 })
+
+var _ = Describe("Copy Card to list in Trello with invalid param", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := []byte(`{"status":false}`)
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/copycard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(CopyCard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("copy card from list", func() {
+		Context("copy card", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Copy Card to list in Trello without list id", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{CardID: "5ce7ee3c098e7f55bba08495"}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/copycard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(CopyCard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("copy card from list", func() {
+		Context("copy card", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Copy Card to list in Trello without card id", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{ListID: "5ce79caefa3395720556a9b0"}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/copycard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(CopyCard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("copy card from list", func() {
+		Context("copy card", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Copy Card to list in Trello", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{CardID: "5ce79caffc474c4364e14da9", ListID: "5ce79caefa3395720556a9b0"}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/copycard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(CopyCard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("copy card from list", func() {
+		Context("copy card", func() {
+			It("Should result http.StatusOK", func() {
+				Expect(http.StatusOK).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
