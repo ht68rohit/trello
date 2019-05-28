@@ -297,38 +297,6 @@ var _ = Describe("Move Card to list in Trello without card id", func() {
 	})
 })
 
-var _ = Describe("Move Card to list in Trello", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
-	os.Setenv("ACCESS_TOKEN", accessToken)
-	os.Setenv("API_KEY", apiKey)
-
-	trello := TrelloArgs{CardID: "5ce79caffc474c4364e14da9", ListID: "5ce79caefa3395720556a9b0", CardName: "Test Card", Description: "Test card description"}
-	requestBody := new(bytes.Buffer)
-	errr := json.NewEncoder(requestBody).Encode(trello)
-	if errr != nil {
-		log.Fatal(errr)
-	}
-
-	request, err := http.NewRequest("POST", "/movecard", requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(MoveCard)
-	handler.ServeHTTP(recorder, request)
-
-	Describe("move card from list", func() {
-		Context("move card", func() {
-			It("Should result http.StatusOK", func() {
-				Expect(http.StatusOK).To(Equal(recorder.Code))
-			})
-		})
-	})
-})
-
 var _ = Describe("Subscribe trello for card without board ID", func() {
 
 	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
