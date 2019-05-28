@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"strings"
 	"time"
 )
 
@@ -246,12 +245,6 @@ func getMessageUpdates(listID string, sub Subscribe) {
 			}
 		}
 	}
-
-	s1 := strings.Split(sub.Endpoint, "//")
-	_, ip := s1[0], s1[1]
-	s := strings.Split(ip, ":")
-	_, port := s[0], s[1]
-	sub.Endpoint = "http://192.168.0.61:" + string(port)
 
 	contentType := "application/json"
 
