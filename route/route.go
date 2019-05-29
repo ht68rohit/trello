@@ -47,6 +47,18 @@ var routes = Routes{
         "/copycard",
         trello.CopyCard,
     },
+    Route{
+        "CreateBoard",
+        "POST",
+        "/createboard",
+        trello.CreateBoard,
+    },
+    Route{
+        "DeleteBoard",
+        "POST",
+        "/deleteboard",
+        trello.DeleteBoard,
+    },
 }
 
 func NewRouter() *mux.Router {

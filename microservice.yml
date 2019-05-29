@@ -82,7 +82,7 @@ actions:
           help: Returns true/false.
           type: string
         message:
-          help: The success message after adding card into list or error message if occurred.
+          help: The success message or error message if occurred.
           type: string
         status_code:
           help: Returns http status code.
@@ -113,7 +113,7 @@ actions:
           help: Returns true/false.
           type: string
         message:
-          help: The success message after adding card into list or error message if occurred.
+          help: The success message or error message if occurred.
           type: string
         status_code:
           help: Returns http status code.
@@ -161,6 +161,58 @@ actions:
         idList:
           help: The ID of list.
           type: string
+  create_board:
+    help: Create new board in trello.
+    http:
+      port: 3000
+      method: post
+      path: /createboard
+      contentType: application/json
+    arguments:
+      board_name:
+        type: string
+        in: requestBody
+        required: true
+        help: The name for new board.
+    output:
+      type: object
+      contentType: application/json
+      properties:
+        success:
+          help: Returns true/false.
+          type: string
+        message:
+          help: The success message or error message if occurred.
+          type: string
+        status_code:
+          help: Returns http status code.
+          type: int
+  delete_board:
+    help: Delete board from trello.
+    http:
+      port: 3000
+      method: post
+      path: /deleteboard
+      contentType: application/json
+    arguments:
+      board_id:
+        type: string
+        in: requestBody
+        required: true
+        help: The board ID to delete.
+    output:
+      type: object
+      contentType: application/json
+      properties:
+        success:
+          help: Returns true/false.
+          type: string
+        message:
+          help: The success message or error message if occurred.
+          type: string
+        status_code:
+          help: Returns http status code.
+          type: int
   receive:
     help: Start receiving newly added card details from board list.
     events:

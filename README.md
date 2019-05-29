@@ -41,6 +41,14 @@ $ omg run move_card -a card_id=<CARD_ID> -a list_id=<LIST_ID> -e API_KEY=<API_KE
 ```sh
 $ omg run copy_card -a card_id=<CARD_ID> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
 ```
+##### Create Board
+```sh
+$ omg run create_board -a board_name=<BOARD_NAME> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```
+##### Delete Board
+```sh
+$ omg run delete_board -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```
 ##### Subscribe card
 ```sh
 $ omg subscribe receive card -a board_id=<BOARD_ID> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>

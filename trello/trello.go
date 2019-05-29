@@ -22,15 +22,15 @@ type Payload struct {
 }
 
 type Subscribe struct {
-	Data          TrelloArgs `json:"data"`
-	Endpoint      string     `json:"endpoint"`
-	Id            string     `json:"id"`
-	LastMessageId uint32
-	IsTesting     bool `json:"istesting"`
+	Data      TrelloArgs `json:"data"`
+	Endpoint  string     `json:"endpoint"`
+	ID        string     `json:"id"`
+	IsTesting bool       `json:"istesting"`
 }
 
 //TrelloArgs struct
 type TrelloArgs struct {
+	BoardName   string `json:"board_name,omitempty"`
 	BoardID     string `json:"board_id,omitempty"`
 	ListID      string `json:"list_id,omitempty"`
 	CardID      string `json:"card_id,omitempty"`
@@ -151,7 +151,7 @@ func MoveCard(responseWriter http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	message := Message{"true", "Card added successfully", http.StatusOK}
+	message := Message{"true", "Card moved successfully", http.StatusOK}
 	bytes, _ := json.Marshal(message)
 	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
 
@@ -187,6 +187,73 @@ func CopyCard(responseWriter http.ResponseWriter, request *http.Request) {
 	}
 
 	bytes, _ := json.Marshal(copy)
+	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+
+}
+
+//CreateBoard trello
+func CreateBoard(responseWriter http.ResponseWriter, request *http.Request) {
+	var apiKey = os.Getenv("API_KEY")
+	var token = os.Getenv("ACCESS_TOKEN")
+
+	decoder := json.NewDecoder(request.Body)
+
+	var param TrelloArgs
+	decodeErr := decoder.Decode(&param)
+	if decodeErr != nil {
+		result.WriteErrorResponse(responseWriter, decodeErr)
+		return
+	}
+
+	client := trello.NewClient(apiKey, token)
+
+	board := trello.NewBoard(param.BoardName)
+
+	err := client.CreateBoard(&board, trello.Defaults())
+	if err != nil {
+		bytes, _ := json.Marshal(err.Error())
+		result.WriteJsonResponse(responseWriter, bytes, http.StatusBadRequest)
+		return
+	}
+
+	message := Message{"true", "Board created successfully", http.StatusOK}
+	bytes, _ := json.Marshal(message)
+	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+
+}
+
+//DeleteBoard trello
+func DeleteBoard(responseWriter http.ResponseWriter, request *http.Request) {
+	var apiKey = os.Getenv("API_KEY")
+	var token = os.Getenv("ACCESS_TOKEN")
+
+	decoder := json.NewDecoder(request.Body)
+
+	var param TrelloArgs
+	decodeErr := decoder.Decode(&param)
+	if decodeErr != nil {
+		result.WriteErrorResponse(responseWriter, decodeErr)
+		return
+	}
+
+	client := trello.NewClient(apiKey, token)
+
+	board, err := client.GetBoard(param.BoardID, trello.Defaults())
+	if err != nil {
+		bytes, _ := json.Marshal(err.Error())
+		result.WriteJsonResponse(responseWriter, bytes, http.StatusBadRequest)
+		return
+	}
+
+	deleteErr := board.Delete(trello.Defaults())
+	if deleteErr != nil {
+		bytes, _ := json.Marshal(err.Error())
+		result.WriteJsonResponse(responseWriter, bytes, http.StatusBadRequest)
+		return
+	}
+
+	message := Message{"true", "Board deleted successfully", http.StatusOK}
+	bytes, _ := json.Marshal(message)
 	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
 
 }
@@ -297,7 +364,7 @@ func getMessageUpdates(listID string, sub Subscribe) {
 	source, err := url.Parse(sub.Endpoint)
 	event := cloudevents.Event{
 		Context: cloudevents.EventContextV01{
-			EventID:     sub.Id,
+			EventID:     sub.ID,
 			EventType:   "card",
 			Source:      cloudevents.URLRef{URL: *source},
 			ContentType: &contentType,
