@@ -24,13 +24,25 @@ omg build
 
 ### CLI
 
-##### Get cards
+##### Create Board
 ```sh
-$ omg run get_cards -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+$ omg run create_board -a board_name=<BOARD_NAME> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```
+##### Create list on board
+```sh
+omg run create_list -a board_id=<BOARD_ID> -a list_name=<LIST_NAME> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```
+##### Get List
+```sh
+omg run get_lists -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
 ```
 ##### Add card to list
 ```sh
 $ omg run add_card -a name=<CARD_NAME> -a description=<DESCRIPTION> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```
+##### Get cards
+```sh
+$ omg run get_cards -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
 ```
 ##### Move card to list
 ```sh
@@ -40,17 +52,13 @@ $ omg run move_card -a card_id=<CARD_ID> -a list_id=<LIST_ID> -e API_KEY=<API_KE
 ```sh
 $ omg run copy_card -a card_id=<CARD_ID> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
 ```
-##### Create Board
+##### Subscribe card
 ```sh
-$ omg run create_board -a board_name=<BOARD_NAME> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+$ omg subscribe receive card -a board_id=<BOARD_ID> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
 ```
 ##### Delete Board
 ```sh
 $ omg run delete_board -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
-```
-##### Subscribe card
-```sh
-$ omg subscribe receive card -a board_id=<BOARD_ID> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
 ```
 
 ## License
