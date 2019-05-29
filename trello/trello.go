@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -30,6 +31,7 @@ type Subscribe struct {
 
 //TrelloArgs struct
 type TrelloArgs struct {
+	ListName    string `json:"list_name,omitempty"`
 	BoardName   string `json:"board_name,omitempty"`
 	BoardID     string `json:"board_id,omitempty"`
 	ListID      string `json:"list_id,omitempty"`
@@ -89,6 +91,33 @@ func GetCards(responseWriter http.ResponseWriter, request *http.Request) {
 		trelloCards = append(trelloCards, cards...)
 	}
 	bytes, _ := json.Marshal(trelloCards)
+	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+}
+
+//GetLists trello
+func GetLists(responseWriter http.ResponseWriter, request *http.Request) {
+	var apiKey = os.Getenv("API_KEY")
+	var token = os.Getenv("ACCESS_TOKEN")
+
+	decoder := json.NewDecoder(request.Body)
+
+	var param TrelloArgs
+	decodeErr := decoder.Decode(&param)
+	if decodeErr != nil {
+		result.WriteErrorResponse(responseWriter, decodeErr)
+		return
+	}
+
+	client := trello.NewClient(apiKey, token)
+	board, err := client.GetBoard(param.BoardID, trello.Defaults())
+	if err != nil {
+		result.WriteErrorResponse(responseWriter, err)
+		return
+	}
+
+	lists, err := board.GetLists(trello.Defaults())
+
+	bytes, _ := json.Marshal(lists)
 	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
 }
 
@@ -258,6 +287,42 @@ func DeleteBoard(responseWriter http.ResponseWriter, request *http.Request) {
 
 }
 
+//CreateList trello
+func CreateList(responseWriter http.ResponseWriter, request *http.Request) {
+	var apiKey = os.Getenv("API_KEY")
+	var token = os.Getenv("ACCESS_TOKEN")
+
+	decoder := json.NewDecoder(request.Body)
+
+	var args trello.Arguments
+	var param TrelloArgs
+	decodeErr := decoder.Decode(&param)
+	if decodeErr != nil {
+		result.WriteErrorResponse(responseWriter, decodeErr)
+		return
+	}
+
+	client := trello.NewClient(apiKey, token)
+
+	board, err := client.GetBoard(param.BoardID, trello.Defaults())
+	if err != nil {
+		bytes, _ := json.Marshal(err.Error())
+		result.WriteJsonResponse(responseWriter, bytes, http.StatusBadRequest)
+		return
+	}
+
+	list, listErr := board.CreateList(param.ListName, args)
+	if listErr != nil {
+		bytes, _ := json.Marshal(listErr.Error())
+		result.WriteJsonResponse(responseWriter, bytes, http.StatusBadRequest)
+		return
+	}
+
+	bytes, _ := json.Marshal(list)
+	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+
+}
+
 //SubscribeCard
 func SubscribeCard(responseWriter http.ResponseWriter, request *http.Request) {
 
@@ -346,6 +411,12 @@ func getMessageUpdates(listID string, sub Subscribe) {
 			}
 		}
 	}
+
+	s1 := strings.Split(sub.Endpoint, "//")
+	_, ip := s1[0], s1[1]
+	s := strings.Split(ip, ":")
+	_, port := s[0], s[1]
+	sub.Endpoint = "http://192.168.0.61:" + string(port)
 
 	contentType := "application/json"
 

@@ -14,6 +14,124 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
 actions:
+  create_board:
+    help: Create new board in trello.
+    http:
+      port: 3000
+      method: post
+      path: /createboard
+      contentType: application/json
+    arguments:
+      board_name:
+        type: string
+        in: requestBody
+        required: true
+        help: The name for new board.
+    output:
+      type: object
+      contentType: application/json
+      properties:
+        success:
+          help: Returns true/false.
+          type: string
+        message:
+          help: The success message or error message if occurred.
+          type: string
+        status_code:
+          help: Returns http status code.
+          type: int
+  create_list:
+    help: Create new list in trello.
+    http:
+      port: 3000
+      method: post
+      path: /createlist
+      contentType: application/json
+    arguments:
+      board_id:
+        type: string
+        in: requestBody
+        required: true
+        help: The board ID to where to create list.
+      list_name:
+        type: string
+        in: requestBody
+        required: true
+        help: The name for new list.
+    output:
+      type: object
+      contentType: application/json
+      properties:
+        id:
+          help: List ID of newly created list.
+          type: string
+        name:
+          help: The name of the list.
+          type: string
+        closed:
+          help: Returns true/false.
+          type: int
+  get_lists:
+    help: Get all list details from trello board.
+    http:
+      port: 3000
+      method: post
+      path: /getlists
+      contentType: application/json
+    arguments:
+      board_id:
+        type: string
+        in: requestBody
+        required: true
+        help: The board ID of trello account.
+    output:
+      type: string
+      contentType: application/json
+      properties:
+        id:
+          help: The ID of list.
+          type: string
+        name:
+          help: The name of the list.
+          type: string
+        closed:
+          help: Returns true/false.
+          type: int
+  add_card:
+    help: Create new card on list.
+    http:
+      port: 3000
+      method: post
+      path: /addcard
+      contentType: application/json
+    arguments:
+      name:
+        type: string
+        in: requestBody
+        required: true
+        help: The name of card to be added.
+      description:
+        type: string
+        in: requestBody
+        help: The description for the card. 
+      list_id:
+        type: string
+        in: requestBody
+        required: true
+        help: The ID of list where card has to add. 
+    output:
+      type: object
+      contentType: application/json
+      properties:
+        success:
+          help: Returns true/false.
+          type: string
+        message:
+          help: The success message or error message if occurred.
+          type: string
+        status_code:
+          help: Returns http status code.
+          type: int
   get_cards:
     help: Get all card details from all lists.
     http:
@@ -52,41 +170,6 @@ actions:
         idList:
           help: The ID of list.
           type: string
-  add_card:
-    help: Create new card on list.
-    http:
-      port: 3000
-      method: post
-      path: /addcard
-      contentType: application/json
-    arguments:
-      name:
-        type: string
-        in: requestBody
-        required: true
-        help: The name of card to be added.
-      description:
-        type: string
-        in: requestBody
-        help: The description for the card. 
-      list_id:
-        type: string
-        in: requestBody
-        required: true
-        help: The ID of list where card has to add. 
-    output:
-      type: object
-      contentType: application/json
-      properties:
-        success:
-          help: Returns true/false.
-          type: string
-        message:
-          help: The success message or error message if occurred.
-          type: string
-        status_code:
-          help: Returns http status code.
-          type: int
   move_card:
     help: Move card from one list to another.
     http:
@@ -161,58 +244,6 @@ actions:
         idList:
           help: The ID of list.
           type: string
-  create_board:
-    help: Create new board in trello.
-    http:
-      port: 3000
-      method: post
-      path: /createboard
-      contentType: application/json
-    arguments:
-      board_name:
-        type: string
-        in: requestBody
-        required: true
-        help: The name for new board.
-    output:
-      type: object
-      contentType: application/json
-      properties:
-        success:
-          help: Returns true/false.
-          type: string
-        message:
-          help: The success message or error message if occurred.
-          type: string
-        status_code:
-          help: Returns http status code.
-          type: int
-  delete_board:
-    help: Delete board from trello.
-    http:
-      port: 3000
-      method: post
-      path: /deleteboard
-      contentType: application/json
-    arguments:
-      board_id:
-        type: string
-        in: requestBody
-        required: true
-        help: The board ID to delete.
-    output:
-      type: object
-      contentType: application/json
-      properties:
-        success:
-          help: Returns true/false.
-          type: string
-        message:
-          help: The success message or error message if occurred.
-          type: string
-        status_code:
-          help: Returns http status code.
-          type: int
   receive:
     help: Start receiving newly added card details from board list.
     events:
@@ -260,6 +291,32 @@ actions:
             idList:
               help: The ID of list.
               type: string
+  delete_board:
+    help: Delete board from trello.
+    http:
+      port: 3000
+      method: post
+      path: /deleteboard
+      contentType: application/json
+    arguments:
+      board_id:
+        type: string
+        in: requestBody
+        required: true
+        help: The board ID to delete.
+    output:
+      type: object
+      contentType: application/json
+      properties:
+        success:
+          help: Returns true/false.
+          type: string
+        message:
+          help: The success message or error message if occurred.
+          type: string
+        status_code:
+          help: Returns http status code.
+          type: int
 environment:
   API_KEY:
     type: string
