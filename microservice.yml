@@ -53,7 +53,7 @@ actions:
           help: The ID of list.
           type: string
   add_card:
-    help: Create card.
+    help: Create new card on list.
     http:
       port: 3000
       method: post
