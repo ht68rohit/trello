@@ -425,6 +425,198 @@ var _ = Describe("Copy Card to list in Trello", func() {
 	})
 })
 
+var _ = Describe("Create board in Trello with invalid param ", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := []byte(`{"status":false}`)
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/createboard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(CreateBoard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("create board in trello", func() {
+		Context("create board", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Create board in Trello without board name", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{BoardName: ""}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/createboard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(CreateBoard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("create board in trello", func() {
+		Context("create board", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Create board in Trello", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{BoardName: "Test Board"}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/createboard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(CreateBoard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("create board in trello", func() {
+		Context("create board", func() {
+			It("Should result http.StatusOK", func() {
+				Expect(http.StatusOK).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Delete board in Trello with invalid param ", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := []byte(`{"status":false}`)
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/deleteboard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(DeleteBoard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("delete board in trello", func() {
+		Context("delete board", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Delete board in Trello without board id", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{BoardID: ""}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/deleteboard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(DeleteBoard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("delete board in trello", func() {
+		Context("delete board", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Delete board in Trello", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{BoardID: "gOUUmqz0"}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/deleteboard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(DeleteBoard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("delete board in trello", func() {
+		Context("delete board", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
 var _ = Describe("Subscribe trello for card without board ID", func() {
 
 	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
@@ -435,7 +627,7 @@ var _ = Describe("Subscribe trello for card without board ID", func() {
 
 	data := TrelloArgs{ListID: "5ce79caefa3395720556a9b0"}
 	sub := Subscribe{Endpoint: "https://webhook.site/3cee781d-0a87-4966-bdec-9635436294e9",
-		Id:        "1",
+		ID:        "1",
 		IsTesting: true,
 		Data:      data,
 	}
@@ -471,7 +663,7 @@ var _ = Describe("Subscribe trello for card", func() {
 
 	data := TrelloArgs{BoardID: "mbuiTPBq", ListID: "5ce79caefa3395720556a9b0"}
 	sub := Subscribe{Endpoint: "https://webhook.site/3cee781d-0a87-4966-bdec-9635436294e9",
-		Id:        "1",
+		ID:        "1",
 		IsTesting: true,
 		Data:      data,
 	}
