@@ -105,6 +105,198 @@ var _ = Describe("Get Card details from Trello", func() {
 	})
 })
 
+var _ = Describe("Get Board details from Trello with param", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := []byte(`{"status":false}`)
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/getboard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(GetBoard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("Get board details from board", func() {
+		Context("board details", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Get Board details from Trello without board ID", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{BoardID: ""}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/getboard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(GetBoard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("Get board details from board", func() {
+		Context("board details", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Get Board details from Trello", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{BoardID: "mbuiTPBq"}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/getboard", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(GetBoard)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("Get board details from board", func() {
+		Context("board details", func() {
+			It("Should result http.StatusOK", func() {
+				Expect(http.StatusOK).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Get list details from Trello with param", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := []byte(`{"status":false}`)
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/getlists", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(GetLists)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("Get list details from board", func() {
+		Context("list details", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Get list details from Trello without board ID", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{BoardID: ""}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/getlists", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(GetLists)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("Get list details from board", func() {
+		Context("list details", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Get list details from Trello", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{BoardID: "mbuiTPBq"}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/getlists", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(GetLists)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("Get list details from board", func() {
+		Context("list details", func() {
+			It("Should result http.StatusOK", func() {
+				Expect(http.StatusOK).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
 var _ = Describe("Add Card to list in Trello with invalid param", func() {
 
 	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
@@ -194,6 +386,134 @@ var _ = Describe("Add Card to list in Trello", func() {
 
 	Describe("Get card details from board", func() {
 		Context("card details", func() {
+			It("Should result http.StatusOK", func() {
+				Expect(http.StatusOK).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Create list in trello board with invalid param", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := []byte(`{"status":false}`)
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/createlist", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(CreateList)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("create list in board", func() {
+		Context("create list", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Create list in trello board without board ID", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{ListName: "Test List"}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/createlist", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(CreateList)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("create list in board", func() {
+		Context("create list", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Create list in trello board without list name", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{BoardID: "mbuiTPBq"}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/createlist", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(CreateList)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("create list in board", func() {
+		Context("create list", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Create list in trello board", func() {
+
+	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
+	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{BoardID: "mbuiTPBq", ListName: "Test List"}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/createlist", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(CreateList)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("create list in board", func() {
+		Context("create list", func() {
 			It("Should result http.StatusOK", func() {
 				Expect(http.StatusOK).To(Equal(recorder.Code))
 			})
