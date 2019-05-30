@@ -284,7 +284,6 @@ actions:
           list_id:
             type: string
             in: requestBody
-            required: true
             help: The list ID to subscribe the list.
         http: 
           port: 3000

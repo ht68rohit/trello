@@ -55,6 +55,7 @@ var cards []*trello.Card
 var tempCards []*trello.Card
 var newCard *trello.Card
 var oldCards []*trello.Card
+var oldCard *trello.Card
 
 //GetCards trello
 func GetCards(responseWriter http.ResponseWriter, request *http.Request) {
@@ -404,39 +405,30 @@ func RTSTrello() {
 }
 
 func getMessageUpdates(listID string, sub Subscribe) {
-	var finalData []*trello.Card
-	lists, err := board.GetLists(trello.Defaults())
 
-	for _, list := range lists {
+	var args trello.Arguments
+	if listID != "" {
 
-		if list.ID == sub.Data.ListID {
+		list, _ := newClient.GetList(listID, args)
+		cards, _ = list.GetCards(trello.Defaults())
 
-			cards, err = list.GetCards(trello.Defaults())
-
-			if len(oldCards) == 0 {
-				oldCards = cards
-			}
-
-			if len(oldCards) < len(cards) {
-
-				for _, card := range cards {
-					found := false
-					for _, oldCard := range oldCards {
-						if card.ID == oldCard.ID {
-							found = true
-							break
-						}
-					}
-					if !found {
-						finalData = append(finalData, card)
-					}
-				}
-
-			} else if len(oldCards) == len(cards) {
-				finalData = cards
-			}
+		if oldCard == nil {
+			flag = true
+		} else {
+			flag = false
 		}
+
+	} else {
+
+		cards, _ = board.GetCards(trello.Defaults())
+		if oldCard == nil {
+			flag = true
+		} else {
+			flag = false
+		}
+
 	}
+	finalData := latestCard(cards)
 
 	contentType := "application/json"
 
@@ -463,16 +455,35 @@ func getMessageUpdates(listID string, sub Subscribe) {
 		Data: finalData,
 	}
 
-	if len(oldCards) < len(cards) || flag == false {
-
+	if flag == true {
+		oldCard = finalData
 		Listener[listID] = sub
 		resp, err := c.Send(context.Background(), event)
 		if err != nil {
 			log.Printf("failed to send: %v", err)
 		}
 		fmt.Printf("Response: \n%s\n", resp)
-		oldCards = cards
-		flag = true
+	} else if finalData.ID != oldCard.ID {
+		oldCard = finalData
+		Listener[listID] = sub
+		resp, err := c.Send(context.Background(), event)
+		if err != nil {
+			log.Printf("failed to send: %v", err)
+		}
+		fmt.Printf("Response: \n%s\n", resp)
 	}
 
+}
+
+func latestCard(cards []*trello.Card) *trello.Card {
+	if len(cards) == 0 {
+		return nil
+	}
+	latest := cards[0]
+	for _, card := range cards {
+		if card.ID > latest.ID {
+			latest = card
+		}
+	}
+	return latest
 }
