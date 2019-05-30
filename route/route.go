@@ -24,6 +24,12 @@ var routes = Routes{
         trello.GetCards,
     },
     Route{
+        "GetBoard",
+        "POST",
+        "/getboard",
+        trello.GetBoard,
+    },
+    Route{
         "GetLists",
         "POST",
         "/getlists",

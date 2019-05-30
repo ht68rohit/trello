@@ -28,6 +28,10 @@ omg build
 ```sh
 $ omg run create_board -a board_name=<BOARD_NAME> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
 ```
+##### Get Board
+```sh
+$ omg run get_board -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```
 ##### Create list on board
 ```sh
 omg run create_list -a board_id=<BOARD_ID> -a list_name=<LIST_NAME> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>

@@ -94,6 +94,32 @@ func GetCards(responseWriter http.ResponseWriter, request *http.Request) {
 	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
 }
 
+//GetBoard trello
+func GetBoard(responseWriter http.ResponseWriter, request *http.Request) {
+	var apiKey = os.Getenv("API_KEY")
+	var token = os.Getenv("ACCESS_TOKEN")
+
+	decoder := json.NewDecoder(request.Body)
+
+	var param TrelloArgs
+	decodeErr := decoder.Decode(&param)
+	if decodeErr != nil {
+		result.WriteErrorResponse(responseWriter, decodeErr)
+		return
+	}
+
+	client := trello.NewClient(apiKey, token)
+	board, err := client.GetBoard(param.BoardID, trello.Defaults())
+	if err != nil {
+		result.WriteErrorResponse(responseWriter, err)
+		return
+	}
+
+	bytes, _ := json.Marshal(board)
+	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+
+}
+
 //GetLists trello
 func GetLists(responseWriter http.ResponseWriter, request *http.Request) {
 	var apiKey = os.Getenv("API_KEY")

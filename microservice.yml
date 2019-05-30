@@ -40,6 +40,32 @@ actions:
         status_code:
           help: Returns http status code.
           type: int
+  get_board:
+    help: Get board details from trello.
+    http:
+      port: 3000
+      method: post
+      path: /getboard
+      contentType: application/json
+    arguments:
+      board_id:
+        type: string
+        in: requestBody
+        required: true
+        help: The board ID of trello account.
+    output:
+      type: string
+      contentType: application/json
+      properties:
+        id:
+          help: The ID of list.
+          type: string
+        name:
+          help: The name of the list.
+          type: string
+        closed:
+          help: Returns true/false.
+          type: int
   create_list:
     help: Create new list in trello.
     http:
