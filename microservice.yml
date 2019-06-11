@@ -14,7 +14,7 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
 actions:
-  create_board:
+  createBoard:
     help: Create new board in trello.
     http:
       port: 3000
@@ -22,7 +22,7 @@ actions:
       path: /createboard
       contentType: application/json
     arguments:
-      board_name:
+      boardName:
         type: string
         in: requestBody
         required: true
@@ -40,7 +40,7 @@ actions:
         status_code:
           help: Returns http status code.
           type: int
-  get_board:
+  getBoard:
     help: Get board details from trello.
     http:
       port: 3000
@@ -48,7 +48,7 @@ actions:
       path: /getboard
       contentType: application/json
     arguments:
-      board_id:
+      boardId:
         type: string
         in: requestBody
         required: true
@@ -66,7 +66,7 @@ actions:
         closed:
           help: Returns true/false.
           type: int
-  create_list:
+  createList:
     help: Create new list in trello.
     http:
       port: 3000
@@ -74,12 +74,12 @@ actions:
       path: /createlist
       contentType: application/json
     arguments:
-      board_id:
+      boardId:
         type: string
         in: requestBody
         required: true
         help: The board ID to where to create list.
-      list_name:
+      listName:
         type: string
         in: requestBody
         required: true
@@ -97,7 +97,7 @@ actions:
         closed:
           help: Returns true/false.
           type: int
-  get_lists:
+  getLists:
     help: Get all list details from trello board.
     http:
       port: 3000
@@ -105,7 +105,7 @@ actions:
       path: /getlists
       contentType: application/json
     arguments:
-      board_id:
+      boardId:
         type: string
         in: requestBody
         required: true
@@ -123,7 +123,7 @@ actions:
         closed:
           help: Returns true/false.
           type: int
-  add_card:
+  addCard:
     help: Create new card on list.
     http:
       port: 3000
@@ -140,7 +140,7 @@ actions:
         type: string
         in: requestBody
         help: The description for the card. 
-      list_id:
+      listId:
         type: string
         in: requestBody
         required: true
@@ -158,7 +158,7 @@ actions:
         status_code:
           help: Returns http status code.
           type: int
-  get_cards:
+  getCards:
     help: Get all card details from all lists.
     http:
       port: 3000
@@ -166,7 +166,7 @@ actions:
       path: /getcards
       contentType: application/json
     arguments:
-      board_id:
+      boardId:
         type: string
         in: requestBody
         required: true
@@ -196,7 +196,7 @@ actions:
         idList:
           help: The ID of list.
           type: string
-  move_card:
+  moveCard:
     help: Move card from one list to another.
     http:
       port: 3000
@@ -204,12 +204,12 @@ actions:
       path: /movecard
       contentType: application/json
     arguments:
-      card_id:
+      cardId:
         type: string
         in: requestBody
         required: true
         help: The ID of card to move.
-      list_id:
+      listId:
         type: string
         in: requestBody
         required: true
@@ -227,7 +227,7 @@ actions:
         status_code:
           help: Returns http status code.
           type: int
-  copy_card:
+  copyCard:
     help: Copy card from one list to another.
     http:
       port: 3000
@@ -235,12 +235,12 @@ actions:
       path: /copycard
       contentType: application/json
     arguments:
-      card_id:
+      cardId:
         type: string
         in: requestBody
         required: true
         help: The ID of card to copy.
-      list_id:
+      listId:
         type: string
         in: requestBody
         required: true
@@ -276,15 +276,20 @@ actions:
       card:
         help: Triggered anytime when any new card is added in list.
         arguments:
-          board_id:
+          boardId:
             type: string
             in: requestBody
             required: true
             help: The board ID to subscribe.
-          list_id:
+          listId:
             type: string
             in: requestBody
             help: The list ID to subscribe the list.
+          existing:
+            type: boolean
+            in: requestBody
+            required: true
+            help: Set true to get all existing cards or false to get only new card added to board after subscription.
         http: 
           port: 3000
           subscribe:
@@ -316,7 +321,7 @@ actions:
             idList:
               help: The ID of list.
               type: string
-  delete_board:
+  deleteBoard:
     help: Delete board from trello.
     http:
       port: 3000
@@ -324,7 +329,7 @@ actions:
       path: /deleteboard
       contentType: application/json
     arguments:
-      board_id:
+      boardId:
         type: string
         in: requestBody
         required: true

@@ -11,6 +11,11 @@ func WriteErrorResponse(responseWriter http.ResponseWriter, err error) {
 	WriteJsonResponse(responseWriter, messageBytes, http.StatusBadRequest)
 }
 
+func WriteErrorResponseString(responseWriter http.ResponseWriter, err string) {
+	messageBytes, _ := json.Marshal(err)
+	WriteJsonResponse(responseWriter, messageBytes, http.StatusBadRequest)
+}
+
 func WriteJsonResponse(responseWriter http.ResponseWriter, bytes []byte, statusCode int) {
 	responseWriter.WriteHeader(statusCode)
 	responseWriter.Header().Set("Content-Type", "application/json; charset=UTF-8")

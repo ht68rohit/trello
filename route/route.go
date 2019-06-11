@@ -3,7 +3,6 @@ package route
 import (
     "github.com/gorilla/mux"
     trello "github.com/heaptracetechnology/microservice-trello/trello"
-    "log"
     "net/http"
 )
 
@@ -83,7 +82,6 @@ func NewRouter() *mux.Router {
     router := mux.NewRouter().StrictSlash(true)
     for _, route := range routes {
         var handler http.Handler
-        log.Println(route.Name)
         handler = route.HandlerFunc
 
         router.

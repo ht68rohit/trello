@@ -30,13 +30,14 @@ type Subscribe struct {
 
 //TrelloArgs struct
 type TrelloArgs struct {
-	ListName    string `json:"list_name,omitempty"`
-	BoardName   string `json:"board_name,omitempty"`
-	BoardID     string `json:"board_id,omitempty"`
-	ListID      string `json:"list_id,omitempty"`
-	CardID      string `json:"card_id,omitempty"`
+	ListName    string `json:"listName,omitempty"`
+	BoardName   string `json:"boardName,omitempty"`
+	BoardID     string `json:"boardId,omitempty"`
+	ListID      string `json:"listId,omitempty"`
+	CardID      string `json:"cardId,omitempty"`
 	CardName    string `json:"name,omitempty"`
 	Description string `json:"description,omitempty"`
+	Existing    bool   `json:"existing,omitempty"`
 }
 
 type Message struct {
@@ -47,13 +48,11 @@ type Message struct {
 
 var Listener = make(map[string]Subscribe)
 var rtmStarted bool
+var isExistingPrinted bool
 var newClient *trello.Client
 var board *trello.Board
-var flag bool
+var finalList *trello.List
 var cards []*trello.Card
-var tempCards []*trello.Card
-var newCard *trello.Card
-var oldCards []*trello.Card
 var oldCard *trello.Card
 
 //GetCards trello
@@ -369,7 +368,7 @@ func SubscribeCard(responseWriter http.ResponseWriter, request *http.Request) {
 	var err error
 	board, err = newClient.GetBoard(sub.Data.BoardID, trello.Defaults())
 	if err != nil {
-		result.WriteErrorResponse(responseWriter, err)
+		result.WriteErrorResponseString(responseWriter, err.Error())
 		return
 	}
 
@@ -389,7 +388,7 @@ func RTSTrello() {
 	for {
 		if len(Listener) > 0 {
 			for ListID, Sub := range Listener {
-				go getMessageUpdates(ListID, Sub)
+				go getMessageUpdates(ListID, Sub, Sub.Data.Existing)
 				isTest = Sub.IsTesting
 			}
 		} else {
@@ -403,31 +402,42 @@ func RTSTrello() {
 	}
 }
 
-func getMessageUpdates(listID string, sub Subscribe) {
+func getMessageUpdates(listID string, sub Subscribe, existing bool) {
 
-	var args trello.Arguments
+	var finalCard *trello.Card
+	var finalCards []*trello.Card
 	if listID != "" {
 
-		list, _ := newClient.GetList(listID, args)
-		cards, _ = list.GetCards(trello.Defaults())
+		lists, _ := board.GetLists(trello.Defaults())
 
-		if oldCard == nil {
-			flag = true
+		for _, list := range lists {
+
+			if list.ID == listID {
+				finalList = list
+			}
+		}
+		if finalList != nil {
+			cards, _ = finalList.GetCards(trello.Defaults())
 		} else {
-			flag = false
+			log.Fatalln("Error : Please provide valid list ID")
+			return
 		}
 
 	} else {
-
 		cards, _ = board.GetCards(trello.Defaults())
-		if oldCard == nil {
-			flag = true
-		} else {
-			flag = false
-		}
-
 	}
-	finalData := latestCard(cards)
+
+	if isExistingPrinted == false {
+		if existing {
+			finalCards = cards
+		} else {
+			if finalCard == nil {
+				finalCard = latestCard(cards)
+			}
+		}
+	} else {
+		finalCard = latestCard(cards)
+	}
 
 	contentType := "application/json"
 
@@ -451,27 +461,37 @@ func getMessageUpdates(listID string, sub Subscribe) {
 			Source:      cloudevents.URLRef{URL: *source},
 			ContentType: &contentType,
 		}.AsV01(),
-		Data: finalData,
+		Data: "",
 	}
 
-	if flag == true {
-		oldCard = finalData
-		Listener[listID] = sub
+	if finalCards != nil {
+		event.Data = finalCards
+
+	} else {
+		event.Data = finalCard
+	}
+
+	if oldCard == nil && finalCard != nil {
+		oldCard = finalCard
+	}
+
+	if existing && !isExistingPrinted {
 		resp, err := c.Send(context.Background(), event)
 		if err != nil {
 			log.Printf("failed to send: %v", err)
 		}
-		fmt.Printf("Response: \n%s\n", resp)
-	} else if finalData.ID != oldCard.ID {
-		oldCard = finalData
-		Listener[listID] = sub
+		fmt.Printf("Response1: \n%s\n", resp)
+		finalCards = nil
+		isExistingPrinted = true
+	} else if oldCard != nil && finalCard.ID != oldCard.ID {
 		resp, err := c.Send(context.Background(), event)
 		if err != nil {
 			log.Printf("failed to send: %v", err)
 		}
-		fmt.Printf("Response: \n%s\n", resp)
+		fmt.Printf("Response2: \n%s\n", resp)
+		oldCard = finalCard
+		finalCard = nil
 	}
-
 }
 
 func latestCard(cards []*trello.Card) *trello.Card {
