@@ -1,79 +1,63 @@
-# Trello as a microservice
-An OMG service for trello, it is a task management app that gives you a visual overview of what is being worked on and who is working on it.
+# _Trello_ OMG Microservice
 
 [![Open Microservice Guide](https://img.shields.io/badge/OMG-enabled-brightgreen.svg?style=for-the-badge)](https://microservice.guide)
 [![Build Status](https://travis-ci.com/heaptracetechnology/microservice-trello.svg?branch=master)](https://travis-ci.com/heaptracetechnology/microservice-trello)
 [![codecov](https://codecov.io/gh/heaptracetechnology/microservice-trello/branch/master/graph/badge.svg)](https://codecov.io/gh/heaptracetechnology/microservice-trello)
 
+Trello microservice allows to create board, list, cards and also to subscribe the entire board or list, it has a variety of work and personal uses and overview of what is being worked on and what is the current status of card.
 
-## [OMG](hhttps://microservice.guide) CLI
+## Usage in [Storyscript](https://storyscript.io/)
 
-### OMG
-
-* omg validate
+```coffee
+_insert example usage here_
 ```
-omg validate
-```
-* omg build
-```
-omg build
-```
-### Test Service
 
-* Test the service by following OMG commands
+Curious to [learn more](https://docs.storyscript.io/)?
 
-### CLI
-
+## Usage with [OMG CLI](https://www.npmjs.com/package/omg)
 ##### Create Board
-```sh
-$ omg run create_board -a board_name=<BOARD_NAME> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```shell
+_$ omg run createBoard -a boardName=<BOARD_NAME> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>_
 ```
 ##### Get Board
-```sh
-$ omg run get_board -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```shell
+_$ omg run getBoard -a boardId=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>_
 ```
 ##### Create list on board
-```sh
-omg run create_list -a board_id=<BOARD_ID> -a list_name=<LIST_NAME> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```shell
+_$ omg run createList -a boardId=<BOARD_ID> -a listName=<LIST_NAME> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>_
 ```
 ##### Get List
-```sh
-omg run get_lists -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```shell
+_$ omg run getLists -a boardId=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>_
 ```
 ##### Add card to list
-```sh
-$ omg run add_card -a name=<CARD_NAME> -a description=<DESCRIPTION> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```shell
+_$ omg run addCard -a name=<CARD_NAME> -a description=<DESCRIPTION> -a listId=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>_
 ```
 ##### Get cards
-```sh
-$ omg run get_cards -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```shell
+_$ omg run getCards -a boardId=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>_
 ```
 ##### Move card to list
-```sh
-$ omg run move_card -a card_id=<CARD_ID> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```shell
+_$ omg run moveCard -a cardId=<CARD_ID> -a listId=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>_
 ```
 ##### Copy card to list
-```sh
-$ omg run copy_card -a card_id=<CARD_ID> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
-```
-##### Subscribe card
-```sh
-$ omg subscribe receive card -a board_id=<BOARD_ID> -a list_id=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```shell
+_$ omg run copyCard -a cardId=<CARD_ID> -a listId=<LIST_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>_
 ```
 ##### Delete Board
-```sh
-$ omg run delete_board -a board_id=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```shell
+_$ omg run deleteBoard -a boardId=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>_
 ```
+##### Subscribe card
+```shell
+_$ omg subscribe receive card -a boardId=<BOARD_ID> -a listId=<LIST_ID> -a existing=<BOOLEAN> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>_
+```
+
+**Note**: the OMG CLI requires [Docker](https://docs.docker.com/install/) to be installed.
 
 ## License
 ### [MIT](https://choosealicense.com/licenses/mit/)
 
-## Docker
-### Build
-```
-docker build -t microservice-trello .
-```
-### RUN
-```
-docker run -p 3000:3000 microservice-trello
-```
