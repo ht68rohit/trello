@@ -43,7 +43,7 @@ type TrelloArgs struct {
 type Message struct {
 	Success    string `json:"success"`
 	Message    string `json:"message"`
-	StatusCode int    `json:"status_code"`
+	StatusCode int    `json:"statusCode"`
 }
 
 var Listener = make(map[string]Subscribe)

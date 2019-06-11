@@ -37,7 +37,7 @@ actions:
         message:
           help: The success message or error message if occurred.
           type: string
-        status_code:
+        statusCode:
           help: Returns http status code.
           type: int
   getBoard:
@@ -155,7 +155,7 @@ actions:
         message:
           help: The success message or error message if occurred.
           type: string
-        status_code:
+        statusCode:
           help: Returns http status code.
           type: int
   getCards:
@@ -224,7 +224,7 @@ actions:
         message:
           help: The success message or error message if occurred.
           type: string
-        status_code:
+        statusCode:
           help: Returns http status code.
           type: int
   copyCard:
@@ -344,7 +344,7 @@ actions:
         message:
           help: The success message or error message if occurred.
           type: string
-        status_code:
+        statusCode:
           help: Returns http status code.
           type: int
 environment:
