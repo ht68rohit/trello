@@ -54,7 +54,7 @@ actions:
         required: true
         help: The board ID of trello account.
     output:
-      type: string
+      type: object
       contentType: application/json
       properties:
         id:
@@ -111,7 +111,7 @@ actions:
         required: true
         help: The board ID of trello account.
     output:
-      type: string
+      type: list
       contentType: application/json
       properties:
         id:
@@ -172,7 +172,7 @@ actions:
         required: true
         help: The board ID of trello account.
     output:
-      type: string
+      type: list
       contentType: application/json
       properties:
         id:
