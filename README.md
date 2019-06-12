@@ -8,11 +8,55 @@ Trello microservice allows to create board, list, cards and also to subscribe th
 
 ## Usage in [Storyscript](https://storyscript.io/)
 
+### Create Board
 ```coffee
-_insert example usage here_
+>>> trello createBoard boardName:'boardName'
+
+```
+### Get Board
+```coffee
+>>> trello getBoard boardId:'boardId'
+
+```
+### Create list on board
+```coffee
+>>> trello createList boardId:'boardId' listName:'listName'
+
+```
+### Get List
+```coffee
+>>> trello getLists boardId:'boardId'
+
+```
+### Add card to list
+```coffee
+>>> trello addCard name:'name' description:'description' listId:'listId'
+
+```
+### Get cards
+```coffee
+>>> trello getCards boardId:'boardId'
+
+```
+### Move card to list
+```coffee
+>>> trello moveCard cardId:'cardId' listId:'listId'
+
+```
+### Copy card to list
+```coffee
+>>> trello copyCard cardId:'cardId' listId:'listId'
+
+```
+### Delete Board
+```coffee
+>>> trello deleteBoard boardId:'boardId'
+
 ```
 
 Curious to [learn more](https://docs.storyscript.io/)?
+
+✨🍰✨
 
 ## Usage with [OMG CLI](https://www.npmjs.com/package/omg)
 ##### Create Board
