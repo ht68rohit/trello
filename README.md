@@ -11,47 +11,47 @@ Trello microservice allows to create board, list, cards and also to subscribe th
 ### Create Board
 ```coffee
 >>> trello createBoard boardName:'boardName'
-
+{"success":"true","message":"Board created successfully","statusCode":200}
 ```
 ### Get Board
 ```coffee
 >>> trello getBoard boardId:'boardId'
-
+{"id":"boardId","name":"boardName","desc":"description","closed":"true/false"}
 ```
 ### Create list on board
 ```coffee
 >>> trello createList boardId:'boardId' listName:'listName'
-
+{"id": "listID","name": "listName","idBoard": "idBoard","closed": "true/false"}
 ```
 ### Get List
 ```coffee
 >>> trello getLists boardId:'boardId'
-
+{"id":"listID","name":"listName","idBoard":"idBoard","closed":"true/false"}
 ```
 ### Add card to list
 ```coffee
 >>> trello addCard name:'name' description:'description' listId:'listId'
-
+{"success":"true","message":"Card added successfully","statusCode":200}
 ```
 ### Get cards
 ```coffee
 >>> trello getCards boardId:'boardId'
-
+{"id":"cardID","name":"cardName","shortUrl":"shortUrl","url":"url","idBoard":"idBoard","idList":"idList"}          
 ```
 ### Move card to list
 ```coffee
 >>> trello moveCard cardId:'cardId' listId:'listId'
-
+{"success":"true","message":"Card moved successfully","statusCode":200}
 ```
 ### Copy card to list
 ```coffee
 >>> trello copyCard cardId:'cardId' listId:'listId'
-
+{"id":"cardID","name":"cardName","shortUrl":"shortUrl","url":"url","idBoard":"idBoard","idList":"idList"}
 ```
 ### Delete Board
 ```coffee
 >>> trello deleteBoard boardId:'boardId'
-
+{"success":"true","message":"Board deleted successfully","statusCode":200}
 ```
 
 Curious to [learn more](https://docs.storyscript.io/)?
