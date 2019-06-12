@@ -8,47 +8,47 @@ Trello microservice allows to create board, list, cards and also to subscribe th
 
 ## Usage in [Storyscript](https://storyscript.io/)
 
-### Create Board
+##### Create Board
 ```coffee
 >>> trello createBoard boardName:'boardName'
 
 ```
-### Get Board
+##### Get Board
 ```coffee
 >>> trello getBoard boardId:'boardId'
 
 ```
-### Create list on board
+##### Create list on board
 ```coffee
 >>> trello createList boardId:'boardId' listName:'listName'
 
 ```
-### Get List
+##### Get List
 ```coffee
 >>> trello getLists boardId:'boardId'
 
 ```
-### Add card to list
+##### Add card to list
 ```coffee
 >>> trello addCard name:'name' description:'description' listId:'listId'
 
 ```
-### Get cards
+##### Get cards
 ```coffee
 >>> trello getCards boardId:'boardId'
 
 ```
-### Move card to list
+##### Move card to list
 ```coffee
 >>> trello moveCard cardId:'cardId' listId:'listId'
 
 ```
-### Copy card to list
+##### Copy card to list
 ```coffee
 >>> trello copyCard cardId:'cardId' listId:'listId'
 
 ```
-### Delete Board
+##### Delete Board
 ```coffee
 >>> trello deleteBoard boardId:'boardId'
 
