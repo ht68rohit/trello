@@ -11,7 +11,7 @@ Trello microservice allows to create board, list, cards and also to subscribe th
 ##### Create Board
 ```coffee
 >>> trello createBoard boardName:'boardName'
-{"success":"true/false","message":"success/failure message","statusCode":"statusCode"}
+{"success":"true/false","message":"success/failure message","statusCode":"HTTPstatusCode"}
 ```
 ##### Get Board
 ```coffee
@@ -31,7 +31,7 @@ Trello microservice allows to create board, list, cards and also to subscribe th
 ##### Add card to list
 ```coffee
 >>> trello addCard name:'name' description:'description' listId:'listId'
-{"success":"true/false","message":"success/failure message","statusCode":"statusCode"}
+{"success":"true/false","message":"success/failure message","statusCode":"HTTPstatusCode"}
 ```
 ##### Get cards
 ```coffee
@@ -41,7 +41,7 @@ Trello microservice allows to create board, list, cards and also to subscribe th
 ##### Move card to list
 ```coffee
 >>> trello moveCard cardId:'cardId' listId:'listId'
-{"success":"true/false","message":"success/failure message","statusCode":"statusCode"}
+{"success":"true/false","message":"success/failure message","statusCode":"HTTPstatusCode"}
 ```
 ##### Copy card to list
 ```coffee
@@ -51,7 +51,7 @@ Trello microservice allows to create board, list, cards and also to subscribe th
 ##### Delete Board
 ```coffee
 >>> trello deleteBoard boardId:'boardId'
-{"success":"true/false","message":"success/failure message","statusCode":"statusCode"}
+{"success":"true/false","message":"success/failure message","statusCode":"HTTPstatusCode"}
 ```
 
 Curious to [learn more](https://docs.storyscript.io/)?
