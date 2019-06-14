@@ -103,5 +103,5 @@ $ omg subscribe receive card -a boardId=<BOARD_ID> -a listId=<LIST_ID> -a existi
 **Note**: the OMG CLI requires [Docker](https://docs.docker.com/install/) to be installed.
 
 ## License
-[MIT License](https://choosealicense.com/licenses/mit/).
+[MIT License](https://github.com/HeaptraceTechnologyCollection/microservice-trello/blob/master/LICENSE).
 
