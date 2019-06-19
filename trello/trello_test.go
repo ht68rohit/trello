@@ -12,6 +12,9 @@ import (
 	"os"
 )
 
+var accessToken = "mockAccessToken"
+var apiKey = "mockApiKey"
+
 var _ = Describe("Get Card details from Trello without environment variables", func() {
 
 	os.Setenv("ACCESS_TOKEN", "")
@@ -43,9 +46,6 @@ var _ = Describe("Get Card details from Trello without environment variables", f
 
 var _ = Describe("Get Card details from Trello with invalid input", func() {
 
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
@@ -73,42 +73,7 @@ var _ = Describe("Get Card details from Trello with invalid input", func() {
 	})
 })
 
-var _ = Describe("Get Card details from Trello", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
-	os.Setenv("ACCESS_TOKEN", accessToken)
-	os.Setenv("API_KEY", apiKey)
-
-	trello := TrelloArgs{BoardID: "mbuiTPBq"}
-	requestBody := new(bytes.Buffer)
-	errr := json.NewEncoder(requestBody).Encode(trello)
-	if errr != nil {
-		log.Fatal(errr)
-	}
-
-	request, err := http.NewRequest("POST", "/getcards", requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(GetCards)
-	handler.ServeHTTP(recorder, request)
-
-	Describe("Get card details from board", func() {
-		Context("card details", func() {
-			It("Should result http.StatusOK", func() {
-				Expect(http.StatusOK).To(Equal(recorder.Code))
-			})
-		})
-	})
-})
-
-var _ = Describe("Get Board details from Trello with param", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+var _ = Describe("Get Board details from Trello with invalid param", func() {
 
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
@@ -139,9 +104,6 @@ var _ = Describe("Get Board details from Trello with param", func() {
 
 var _ = Describe("Get Board details from Trello without board ID", func() {
 
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
@@ -169,42 +131,7 @@ var _ = Describe("Get Board details from Trello without board ID", func() {
 	})
 })
 
-var _ = Describe("Get Board details from Trello", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
-	os.Setenv("ACCESS_TOKEN", accessToken)
-	os.Setenv("API_KEY", apiKey)
-
-	trello := TrelloArgs{BoardID: "mbuiTPBq"}
-	requestBody := new(bytes.Buffer)
-	errr := json.NewEncoder(requestBody).Encode(trello)
-	if errr != nil {
-		log.Fatal(errr)
-	}
-
-	request, err := http.NewRequest("POST", "/getboard", requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(GetBoard)
-	handler.ServeHTTP(recorder, request)
-
-	Describe("Get board details from board", func() {
-		Context("board details", func() {
-			It("Should result http.StatusOK", func() {
-				Expect(http.StatusOK).To(Equal(recorder.Code))
-			})
-		})
-	})
-})
-
-var _ = Describe("Get list details from Trello with param", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
+var _ = Describe("Get list details from Trello with invalid param", func() {
 
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
@@ -235,9 +162,6 @@ var _ = Describe("Get list details from Trello with param", func() {
 
 var _ = Describe("Get list details from Trello without board ID", func() {
 
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
@@ -265,42 +189,7 @@ var _ = Describe("Get list details from Trello without board ID", func() {
 	})
 })
 
-var _ = Describe("Get list details from Trello", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
-	os.Setenv("ACCESS_TOKEN", accessToken)
-	os.Setenv("API_KEY", apiKey)
-
-	trello := TrelloArgs{BoardID: "mbuiTPBq"}
-	requestBody := new(bytes.Buffer)
-	errr := json.NewEncoder(requestBody).Encode(trello)
-	if errr != nil {
-		log.Fatal(errr)
-	}
-
-	request, err := http.NewRequest("POST", "/getlists", requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(GetLists)
-	handler.ServeHTTP(recorder, request)
-
-	Describe("Get list details from board", func() {
-		Context("list details", func() {
-			It("Should result http.StatusOK", func() {
-				Expect(http.StatusOK).To(Equal(recorder.Code))
-			})
-		})
-	})
-})
-
 var _ = Describe("Add Card to list in Trello with invalid param", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
 
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
@@ -331,9 +220,6 @@ var _ = Describe("Add Card to list in Trello with invalid param", func() {
 
 var _ = Describe("Add Card to list in Trello without list ID", func() {
 
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
@@ -361,42 +247,7 @@ var _ = Describe("Add Card to list in Trello without list ID", func() {
 	})
 })
 
-var _ = Describe("Add Card to list in Trello", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
-	os.Setenv("ACCESS_TOKEN", accessToken)
-	os.Setenv("API_KEY", apiKey)
-
-	trello := TrelloArgs{BoardID: "mbuiTPBq", ListID: "5ce79caed41a20441ed21111", CardName: "Test Card", Description: "Test card description"}
-	requestBody := new(bytes.Buffer)
-	errr := json.NewEncoder(requestBody).Encode(trello)
-	if errr != nil {
-		log.Fatal(errr)
-	}
-
-	request, err := http.NewRequest("POST", "/addcard", requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(AddCard)
-	handler.ServeHTTP(recorder, request)
-
-	Describe("Get card details from board", func() {
-		Context("card details", func() {
-			It("Should result http.StatusOK", func() {
-				Expect(http.StatusOK).To(Equal(recorder.Code))
-			})
-		})
-	})
-})
-
 var _ = Describe("Create list in trello board with invalid param", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
 
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
@@ -427,9 +278,6 @@ var _ = Describe("Create list in trello board with invalid param", func() {
 
 var _ = Describe("Create list in trello board without board ID", func() {
 
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
@@ -459,9 +307,6 @@ var _ = Describe("Create list in trello board without board ID", func() {
 
 var _ = Describe("Create list in trello board without list name", func() {
 
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
@@ -489,42 +334,7 @@ var _ = Describe("Create list in trello board without list name", func() {
 	})
 })
 
-var _ = Describe("Create list in trello board", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
-	os.Setenv("ACCESS_TOKEN", accessToken)
-	os.Setenv("API_KEY", apiKey)
-
-	trello := TrelloArgs{BoardID: "mbuiTPBq", ListName: "Test List"}
-	requestBody := new(bytes.Buffer)
-	errr := json.NewEncoder(requestBody).Encode(trello)
-	if errr != nil {
-		log.Fatal(errr)
-	}
-
-	request, err := http.NewRequest("POST", "/createlist", requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(CreateList)
-	handler.ServeHTTP(recorder, request)
-
-	Describe("create list in board", func() {
-		Context("create list", func() {
-			It("Should result http.StatusOK", func() {
-				Expect(http.StatusOK).To(Equal(recorder.Code))
-			})
-		})
-	})
-})
-
 var _ = Describe("Move Card to list in Trello with invalid param", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
 
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
@@ -555,9 +365,6 @@ var _ = Describe("Move Card to list in Trello with invalid param", func() {
 
 var _ = Describe("Move Card to list in Trello without list id", func() {
 
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
@@ -586,9 +393,6 @@ var _ = Describe("Move Card to list in Trello without list id", func() {
 })
 
 var _ = Describe("Move Card to list in Trello without card id", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
 
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
@@ -619,9 +423,6 @@ var _ = Describe("Move Card to list in Trello without card id", func() {
 
 var _ = Describe("Copy Card to list in Trello with invalid param", func() {
 
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
@@ -650,9 +451,6 @@ var _ = Describe("Copy Card to list in Trello with invalid param", func() {
 })
 
 var _ = Describe("Copy Card to list in Trello without list id", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
 
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
@@ -683,9 +481,6 @@ var _ = Describe("Copy Card to list in Trello without list id", func() {
 
 var _ = Describe("Copy Card to list in Trello without card id", func() {
 
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
@@ -713,42 +508,7 @@ var _ = Describe("Copy Card to list in Trello without card id", func() {
 	})
 })
 
-var _ = Describe("Copy Card to list in Trello", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
-	os.Setenv("ACCESS_TOKEN", accessToken)
-	os.Setenv("API_KEY", apiKey)
-
-	trello := TrelloArgs{CardID: "5ce79caffc474c4364e14da9", ListID: "5ce79caefa3395720556a9b0"}
-	requestBody := new(bytes.Buffer)
-	errr := json.NewEncoder(requestBody).Encode(trello)
-	if errr != nil {
-		log.Fatal(errr)
-	}
-
-	request, err := http.NewRequest("POST", "/copycard", requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(CopyCard)
-	handler.ServeHTTP(recorder, request)
-
-	Describe("copy card from list", func() {
-		Context("copy card", func() {
-			It("Should result http.StatusOK", func() {
-				Expect(http.StatusOK).To(Equal(recorder.Code))
-			})
-		})
-	})
-})
-
 var _ = Describe("Create board in Trello with invalid param ", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
 
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
@@ -779,9 +539,6 @@ var _ = Describe("Create board in Trello with invalid param ", func() {
 
 var _ = Describe("Create board in Trello without board name", func() {
 
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
@@ -809,42 +566,7 @@ var _ = Describe("Create board in Trello without board name", func() {
 	})
 })
 
-var _ = Describe("Create board in Trello", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
-	os.Setenv("ACCESS_TOKEN", accessToken)
-	os.Setenv("API_KEY", apiKey)
-
-	trello := TrelloArgs{BoardName: "Test Board"}
-	requestBody := new(bytes.Buffer)
-	errr := json.NewEncoder(requestBody).Encode(trello)
-	if errr != nil {
-		log.Fatal(errr)
-	}
-
-	request, err := http.NewRequest("POST", "/createboard", requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(CreateBoard)
-	handler.ServeHTTP(recorder, request)
-
-	Describe("create board in trello", func() {
-		Context("create board", func() {
-			It("Should result http.StatusOK", func() {
-				Expect(http.StatusOK).To(Equal(recorder.Code))
-			})
-		})
-	})
-})
-
 var _ = Describe("Delete board in Trello with invalid param ", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
 
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
@@ -875,9 +597,6 @@ var _ = Describe("Delete board in Trello with invalid param ", func() {
 
 var _ = Describe("Delete board in Trello without board id", func() {
 
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
@@ -906,9 +625,6 @@ var _ = Describe("Delete board in Trello without board id", func() {
 })
 
 var _ = Describe("Delete board in Trello", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
 
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
@@ -939,9 +655,6 @@ var _ = Describe("Delete board in Trello", func() {
 
 var _ = Describe("Subscribe trello for card without board ID", func() {
 
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
@@ -968,42 +681,6 @@ var _ = Describe("Subscribe trello for card without board ID", func() {
 		Context("Subscribe", func() {
 			It("Should result http.StatusBadRequest", func() {
 				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
-			})
-		})
-	})
-})
-
-var _ = Describe("Subscribe trello for card", func() {
-
-	accessToken := "a8ea88ad56eeb88ec495a0470024a553382f7952ae17ba595795b1a1096c6569"
-	apiKey := "60eab9d853e88b36ae0047ade46b8816"
-
-	os.Setenv("ACCESS_TOKEN", accessToken)
-	os.Setenv("API_KEY", apiKey)
-
-	data := TrelloArgs{BoardID: "mbuiTPBq", ListID: "5ce79caefa3395720556a9b0"}
-	sub := Subscribe{Endpoint: "https://webhook.site/3cee781d-0a87-4966-bdec-9635436294e9",
-		ID:        "1",
-		IsTesting: true,
-		Data:      data,
-	}
-	requestBody := new(bytes.Buffer)
-	err := json.NewEncoder(requestBody).Encode(sub)
-	if err != nil {
-		fmt.Println(" request err :", err)
-	}
-	req, err := http.NewRequest("POST", "/subscribe", requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(SubscribeCard)
-	handler.ServeHTTP(recorder, req)
-
-	Describe("Subscribe", func() {
-		Context("Subscribe", func() {
-			It("Should result http.StatusOK", func() {
-				Expect(http.StatusOK).To(Equal(recorder.Code))
 			})
 		})
 	})
