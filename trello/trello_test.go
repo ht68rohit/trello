@@ -15,6 +15,9 @@ import (
 var (
 	accessToken = os.Getenv("TRELLO_ACCESS_TOKEN")
 	apiKey      = os.Getenv("TRELLO_API_KEY")
+	boardID     = os.Getenv("TRELLO_BOARD_ID")
+	listID      = os.Getenv("TRELLO_LIST_ID")
+	cardID      = os.Getenv("TRELLO_CARD_ID")
 )
 
 var _ = Describe("Get Card details from Trello without environment variables", func() {
@@ -22,7 +25,7 @@ var _ = Describe("Get Card details from Trello without environment variables", f
 	os.Setenv("ACCESS_TOKEN", "")
 	os.Setenv("API_KEY", "")
 
-	trello := TrelloArgs{BoardID: "mbuiTPBq"}
+	trello := TrelloArgs{BoardID: boardID}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -80,7 +83,7 @@ var _ = Describe("Get Card details from Trello", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{BoardID: "mbuiTPBq"}
+	trello := TrelloArgs{BoardID: boardID}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -167,7 +170,7 @@ var _ = Describe("Get Board details from Trello", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{BoardID: "mbuiTPBq"}
+	trello := TrelloArgs{BoardID: boardID}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -254,7 +257,7 @@ var _ = Describe("Get list details from Trello", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{BoardID: "mbuiTPBq"}
+	trello := TrelloArgs{BoardID: boardID}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -312,7 +315,7 @@ var _ = Describe("Add Card to list in Trello without list ID", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{BoardID: "mbuiTPBq", CardName: "Test Card", Description: "Test card description"}
+	trello := TrelloArgs{BoardID: boardID, CardName: "Test Card", Description: "Test card description"}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -341,7 +344,7 @@ var _ = Describe("Add Card to list in Trello", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{BoardID: "mbuiTPBq", ListID: "5ce79caed41a20441ed21111", CardName: "Test Card", Description: "Test card description"}
+	trello := TrelloArgs{BoardID: boardID, ListID: listID, CardName: "Test Card", Description: "Test card description"}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -428,7 +431,7 @@ var _ = Describe("Create list in trello board without list name", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{BoardID: "mbuiTPBq"}
+	trello := TrelloArgs{BoardID: boardID}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -457,7 +460,7 @@ var _ = Describe("Create list in trello board", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{BoardID: "mbuiTPBq", ListName: "Test List"}
+	trello := TrelloArgs{BoardID: boardID, ListName: "Test List"}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -515,7 +518,7 @@ var _ = Describe("Move Card to list in Trello without list id", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{CardID: "5ce79caffc474c4364e14da9", CardName: "Test Card", Description: "Test card description"}
+	trello := TrelloArgs{CardID: cardID, CardName: "Test Card", Description: "Test card description"}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -544,7 +547,7 @@ var _ = Describe("Move Card to list in Trello without card id", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{ListID: "5ce79caefa3395720556a9b0", CardName: "Test Card", Description: "Test card description"}
+	trello := TrelloArgs{ListID: listID, CardName: "Test Card", Description: "Test card description"}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -602,7 +605,7 @@ var _ = Describe("Copy Card to list in Trello without list id", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{CardID: "5ce7ee3c098e7f55bba08495"}
+	trello := TrelloArgs{CardID: cardID}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -631,7 +634,7 @@ var _ = Describe("Copy Card to list in Trello without card id", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{ListID: "5ce79caefa3395720556a9b0"}
+	trello := TrelloArgs{ListID: listID}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -660,7 +663,7 @@ var _ = Describe("Copy Card to list in Trello", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{CardID: "5ce79caffc474c4364e14da9", ListID: "5ce79caefa3395720556a9b0"}
+	trello := TrelloArgs{CardID: cardID, ListID: listID}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -834,7 +837,7 @@ var _ = Describe("Delete board in Trello", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	trello := TrelloArgs{BoardID: "gOUUmqz0"}
+	trello := TrelloArgs{BoardID: boardID}
 	requestBody := new(bytes.Buffer)
 	errr := json.NewEncoder(requestBody).Encode(trello)
 	if errr != nil {
@@ -863,7 +866,7 @@ var _ = Describe("Subscribe trello for card without board ID", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	data := TrelloArgs{ListID: "5ce79caefa3395720556a9b0"}
+	data := TrelloArgs{ListID: listID}
 	sub := Subscribe{Endpoint: "https://webhook.site/3cee781d-0a87-4966-bdec-9635436294e9",
 		ID:        "1",
 		IsTesting: true,
@@ -896,7 +899,7 @@ var _ = Describe("Subscribe trello for card", func() {
 	os.Setenv("ACCESS_TOKEN", accessToken)
 	os.Setenv("API_KEY", apiKey)
 
-	data := TrelloArgs{BoardID: "mbuiTPBq", ListID: "5ce79caefa3395720556a9b0"}
+	data := TrelloArgs{BoardID: boardID, ListID: listID}
 	sub := Subscribe{Endpoint: "https://webhook.site/3cee781d-0a87-4966-bdec-9635436294e9",
 		ID:        "1",
 		IsTesting: true,
