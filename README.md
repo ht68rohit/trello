@@ -53,6 +53,11 @@ Trello microservice allows to create board, list, cards and also to subscribe th
 >>> trello deleteBoard boardId:'boardId'
 {"success":"true/false","message":"success/failure message","statusCode":"HTTPstatusCode"}
 ```
+##### Boards For User
+```coffee
+>>> trello boardForUser username:'username'
+{"id":"boardId","name":"boardName","desc":"description","closed":"true/false","url":"boardLink"}
+```
 
 Curious to [learn more](https://docs.storyscript.io/)?
 
@@ -99,6 +104,11 @@ $ omg run deleteBoard -a boardId=<BOARD_ID> -e API_KEY=<API_KEY> -e ACCESS_TOKEN
 ```shell
 $ omg subscribe receive card -a boardId=<BOARD_ID> -a listId=<LIST_ID> -a existing=<BOOLEAN> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
 ```
+##### Boards For User
+```shell
+$ omg run boardForUser -a username=<USERNAME> -e API_KEY=<API_KEY> -e ACCESS_TOKEN=<ACCESS_TOKEN>
+```
+
 
 **Note**: the OMG CLI requires [Docker](https://docs.docker.com/install/) to be installed.
 

@@ -76,6 +76,12 @@ var routes = Routes{
         "/createlist",
         trello.CreateList,
     },
+    Route{
+        "BoardForUser",
+        "POST",
+        "/boardforuser",
+        trello.BoardForUser,
+    },
 }
 
 func NewRouter() *mux.Router {

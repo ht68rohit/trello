@@ -38,6 +38,7 @@ type TrelloArgs struct {
 	CardName    string `json:"name,omitempty"`
 	Description string `json:"description,omitempty"`
 	Existing    bool   `json:"existing,omitempty"`
+	Username    string `json:"username,omitempty"`
 }
 
 type Message struct {
@@ -344,6 +345,41 @@ func CreateList(responseWriter http.ResponseWriter, request *http.Request) {
 	}
 
 	bytes, _ := json.Marshal(list)
+	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+
+}
+
+//BoardForUser trello
+func BoardForUser(responseWriter http.ResponseWriter, request *http.Request) {
+	var apiKey = os.Getenv("API_KEY")
+	var token = os.Getenv("ACCESS_TOKEN")
+
+	decoder := json.NewDecoder(request.Body)
+
+	var param TrelloArgs
+	decodeErr := decoder.Decode(&param)
+	if decodeErr != nil {
+		result.WriteErrorResponse(responseWriter, decodeErr)
+		return
+	}
+
+	client := trello.NewClient(apiKey, token)
+
+	member, err := client.GetMember(param.Username, trello.Defaults())
+	if err != nil {
+		bytes, _ := json.Marshal(err.Error())
+		result.WriteJsonResponse(responseWriter, bytes, http.StatusBadRequest)
+		return
+	}
+
+	boards, err := member.GetBoards(trello.Defaults())
+	if err != nil {
+		bytes, _ := json.Marshal(err.Error())
+		result.WriteJsonResponse(responseWriter, bytes, http.StatusBadRequest)
+		return
+	}
+
+	bytes, _ := json.Marshal(boards)
 	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
 
 }

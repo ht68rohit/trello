@@ -347,6 +347,38 @@ actions:
         statusCode:
           help: Returns http status code.
           type: int
+  boardForUser:
+    help: Get board details from trello.
+    http:
+      port: 3000
+      method: post
+      path: /boardforuser
+      contentType: application/json
+    arguments:
+      username:
+        type: string
+        in: requestBody
+        required: true
+        help: The username of trello account.
+    output:
+      type: list
+      contentType: application/json
+      properties:
+        id:
+          help: The ID of board.
+          type: string
+        name:
+          help: The name of the board.
+          type: string
+        closed:
+          help: Returns true/false.
+          type: boolean
+        url:
+          help: Returns URL of the trello board.
+          type: string
+        prefs:
+          help: The preference of the trello board.
+          type: object
 environment:
   API_KEY:
     type: string

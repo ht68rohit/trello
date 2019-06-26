@@ -18,6 +18,7 @@ var (
 	boardID     = os.Getenv("TRELLO_BOARD_ID")
 	listID      = os.Getenv("TRELLO_LIST_ID")
 	cardID      = os.Getenv("TRELLO_CARD_ID")
+	username    = os.Getenv("TRELLO_USERNAME")
 )
 
 var _ = Describe("Get Card details from Trello without environment variables", func() {
@@ -921,6 +922,93 @@ var _ = Describe("Subscribe trello for card", func() {
 	Describe("Subscribe", func() {
 		Context("Subscribe", func() {
 			It("Should result http.StatusOK", func() {
+				Expect(http.StatusOK).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Get boards for user in Trello with invalid param ", func() {
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := []byte(`{"status":false}`)
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/boardforuser", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(BoardForUser)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("get boards for user in trello", func() {
+		Context("get boards for user", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Get boards for user in Trello without username", func() {
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{Username: ""}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/boardforuser", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(BoardForUser)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("Get boards for user in trello", func() {
+		Context("Get boards for user", func() {
+			It("Should result http.StatusBadRequest", func() {
+				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
+			})
+		})
+	})
+})
+
+var _ = Describe("Get boards for user in Trello", func() {
+
+	os.Setenv("ACCESS_TOKEN", accessToken)
+	os.Setenv("API_KEY", apiKey)
+
+	trello := TrelloArgs{Username: username}
+	requestBody := new(bytes.Buffer)
+	errr := json.NewEncoder(requestBody).Encode(trello)
+	if errr != nil {
+		log.Fatal(errr)
+	}
+
+	request, err := http.NewRequest("POST", "/boardforuser", requestBody)
+	if err != nil {
+		log.Fatal(err)
+	}
+	recorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(BoardForUser)
+	handler.ServeHTTP(recorder, request)
+
+	Describe("Get boards for user in trello", func() {
+		Context("Get boards for user", func() {
+			It("Should result http.StatusStatusOK", func() {
 				Expect(http.StatusOK).To(Equal(recorder.Code))
 			})
 		})
