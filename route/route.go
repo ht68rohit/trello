@@ -77,10 +77,10 @@ var routes = Routes{
         trello.CreateList,
     },
     Route{
-        "BoardForUser",
+        "GetAllBoards",
         "POST",
         "/getallboards",
-        trello.BoardForUser,
+        trello.GetAllBoards,
     },
 }
 

@@ -349,8 +349,8 @@ func CreateList(responseWriter http.ResponseWriter, request *http.Request) {
 
 }
 
-//BoardForUser trello
-func BoardForUser(responseWriter http.ResponseWriter, request *http.Request) {
+//GetAllBoards trello
+func GetAllBoards(responseWriter http.ResponseWriter, request *http.Request) {
 	var apiKey = os.Getenv("API_KEY")
 	var token = os.Getenv("ACCESS_TOKEN")
 
