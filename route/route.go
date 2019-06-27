@@ -79,7 +79,7 @@ var routes = Routes{
     Route{
         "BoardForUser",
         "POST",
-        "/boardforuser",
+        "/getallboards",
         trello.BoardForUser,
     },
 }

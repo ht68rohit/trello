@@ -53,9 +53,9 @@ Trello microservice allows to create board, list, cards and also to subscribe th
 >>> trello deleteBoard boardId:'boardId'
 {"success":"true/false","message":"success/failure message","statusCode":"HTTPstatusCode"}
 ```
-##### Boards For User
+##### Get All Boards
 ```coffee
->>> trello boardForUser username:'username'
+>>> trello getAllBoards username:'username'
 {"id":"boardId","name":"boardName","desc":"description","closed":"true/false","url":"boardLink"}
 ```
 

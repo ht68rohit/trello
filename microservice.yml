@@ -347,12 +347,12 @@ actions:
         statusCode:
           help: Returns http status code.
           type: int
-  boardForUser:
+  getAllBoards:
     help: Get board details from trello.
     http:
       port: 3000
       method: post
-      path: /boardforuser
+      path: /getallboards
       contentType: application/json
     arguments:
       username:
