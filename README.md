@@ -1,8 +1,8 @@
 # _Trello_ OMG Microservice
 
 [![Open Microservice Guide](https://img.shields.io/badge/OMG%20Enabled-👍-green.svg?)](https://microservice.guide)
-[![Build Status](https://travis-ci.com/heaptracetechnology/microservice-trello.svg?branch=master)](https://travis-ci.com/heaptracetechnology/microservice-trello)
-[![codecov](https://codecov.io/gh/heaptracetechnology/microservice-trello/branch/master/graph/badge.svg)](https://codecov.io/gh/heaptracetechnology/microservice-trello)
+[![Build Status](https://travis-ci.com/omg-services/trello.svg?branch=master)](https://travis-ci.com/omg-services/trello)
+[![codecov](https://codecov.io/gh/omg-services/trello/branch/master/graph/badge.svg)](https://codecov.io/gh/omg-services/trello)
 
 Trello microservice allows to create board, list, cards and also to subscribe the entire board or list, it has a variety of work and personal uses and overview of what is being worked on and what is the current status of card.
 
