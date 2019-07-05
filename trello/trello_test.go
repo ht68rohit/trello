@@ -833,35 +833,6 @@ var _ = Describe("Delete board in Trello without board id", func() {
 	})
 })
 
-var _ = Describe("Delete board in Trello", func() {
-
-	os.Setenv("ACCESS_TOKEN", accessToken)
-	os.Setenv("API_KEY", apiKey)
-
-	trello := TrelloArgs{BoardID: boardID}
-	requestBody := new(bytes.Buffer)
-	errr := json.NewEncoder(requestBody).Encode(trello)
-	if errr != nil {
-		log.Fatal(errr)
-	}
-
-	request, err := http.NewRequest("POST", "/deleteboard", requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(DeleteBoard)
-	handler.ServeHTTP(recorder, request)
-
-	Describe("delete board in trello", func() {
-		Context("delete board", func() {
-			It("Should result http.StatusBadRequest", func() {
-				Expect(http.StatusBadRequest).To(Equal(recorder.Code))
-			})
-		})
-	})
-})
-
 var _ = Describe("Subscribe trello for card without board ID", func() {
 
 	os.Setenv("ACCESS_TOKEN", accessToken)
@@ -945,7 +916,7 @@ var _ = Describe("Get boards for user in Trello with invalid param ", func() {
 		log.Fatal(err)
 	}
 	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(BoardForUser)
+	handler := http.HandlerFunc(GetAllBoards)
 	handler.ServeHTTP(recorder, request)
 
 	Describe("get boards for user in trello", func() {
@@ -974,7 +945,7 @@ var _ = Describe("Get boards for user in Trello without username", func() {
 		log.Fatal(err)
 	}
 	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(BoardForUser)
+	handler := http.HandlerFunc(GetAllBoards)
 	handler.ServeHTTP(recorder, request)
 
 	Describe("Get boards for user in trello", func() {
@@ -1003,7 +974,7 @@ var _ = Describe("Get boards for user in Trello", func() {
 		log.Fatal(err)
 	}
 	recorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(BoardForUser)
+	handler := http.HandlerFunc(GetAllBoards)
 	handler.ServeHTTP(recorder, request)
 
 	Describe("Get boards for user in trello", func() {
