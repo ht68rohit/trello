@@ -110,8 +110,8 @@ actions:
         required: true
         help: The ID of list where card has to add. 
     output:
-      type: map
       contentType: application/json
+      type: map
   getCards:
     help: Get all card details from all lists.
     http:

@@ -42,7 +42,7 @@ type TrelloArgs struct {
 }
 
 type Message struct {
-	Success    string `json:"success"`
+	Success    bool   `json:"success"`
 	Message    string `json:"message"`
 	StatusCode int    `json:"statusCode"`
 }
@@ -177,8 +177,7 @@ func AddCard(responseWriter http.ResponseWriter, request *http.Request) {
 		return
 	}
 	list.AddCard(&trello.Card{Name: card.CardName, Desc: card.Description}, trello.Defaults())
-
-	message := Message{"true", "Card added successfully", http.StatusOK}
+	message := Message{true, "Card added successfully", http.StatusOK}
 	bytes, _ := json.Marshal(message)
 	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
 
@@ -213,7 +212,7 @@ func MoveCard(responseWriter http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	message := Message{"true", "Card moved successfully", http.StatusOK}
+	message := Message{true, "Card moved successfully", http.StatusOK}
 	bytes, _ := json.Marshal(message)
 	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
 
@@ -278,7 +277,7 @@ func CreateBoard(responseWriter http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	message := Message{"true", "Board created successfully", http.StatusOK}
+	message := Message{true, "Board created successfully", http.StatusOK}
 	bytes, _ := json.Marshal(message)
 	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
 
@@ -314,7 +313,7 @@ func DeleteBoard(responseWriter http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	message := Message{"true", "Board deleted successfully", http.StatusOK}
+	message := Message{true, "Board deleted successfully", http.StatusOK}
 	bytes, _ := json.Marshal(message)
 	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
 
