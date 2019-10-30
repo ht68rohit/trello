@@ -25,31 +25,31 @@ var routes = Routes{
     Route{
         "GetCards",
         "POST",
-        "/getcards",
+        "/getCards",
         trello.GetCards,
     },
     Route{
         "GetBoard",
         "POST",
-        "/getboard",
+        "/getBoard",
         trello.GetBoard,
     },
     Route{
         "GetLists",
         "POST",
-        "/getlists",
+        "/getLists",
         trello.GetLists,
     },
     Route{
         "AddCard",
         "POST",
-        "/addcard",
+        "/addCard",
         trello.AddCard,
     },
     Route{
         "MoveCard",
         "POST",
-        "/movecard",
+        "/moveCard",
         trello.MoveCard,
     },
     Route{
@@ -61,31 +61,31 @@ var routes = Routes{
     Route{
         "CopyCard",
         "POST",
-        "/copycard",
+        "/copyCard",
         trello.CopyCard,
     },
     Route{
         "CreateBoard",
         "POST",
-        "/createboard",
+        "/createBoard",
         trello.CreateBoard,
     },
     Route{
         "DeleteBoard",
         "POST",
-        "/deleteboard",
+        "/deleteBoard",
         trello.DeleteBoard,
     },
     Route{
         "CreateList",
         "POST",
-        "/createlist",
+        "/createList",
         trello.CreateList,
     },
     Route{
         "GetAllBoards",
         "POST",
-        "/getallboards",
+        "/getallBoards",
         trello.GetAllBoards,
     },
 }

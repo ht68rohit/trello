@@ -23,7 +23,7 @@ actions:
     http:
       port: 3000
       method: post
-      path: /createboard
+      path: /createBoard
       contentType: application/json
     arguments:
       boardName:
@@ -34,22 +34,12 @@ actions:
     output:
       type: object
       contentType: application/json
-      properties:
-        success:
-          help: Returns true/false.
-          type: string
-        message:
-          help: The success message or error message if occurred.
-          type: string
-        statusCode:
-          help: Returns http status code.
-          type: int
   getBoard:
     help: Get board details from trello.
     http:
       port: 3000
       method: post
-      path: /getboard
+      path: /getBoard
       contentType: application/json
     arguments:
       boardId:
@@ -60,22 +50,12 @@ actions:
     output:
       type: object
       contentType: application/json
-      properties:
-        id:
-          help: The ID of list.
-          type: string
-        name:
-          help: The name of the list.
-          type: string
-        closed:
-          help: Returns true/false.
-          type: int
   createList:
     help: Create new list in trello.
     http:
       port: 3000
       method: post
-      path: /createlist
+      path: /createList
       contentType: application/json
     arguments:
       boardId:
@@ -91,22 +71,12 @@ actions:
     output:
       type: object
       contentType: application/json
-      properties:
-        id:
-          help: List ID of newly created list.
-          type: string
-        name:
-          help: The name of the list.
-          type: string
-        closed:
-          help: Returns true/false.
-          type: int
   getLists:
     help: Get all list details from trello board.
     http:
       port: 3000
       method: post
-      path: /getlists
+      path: /getLists
       contentType: application/json
     arguments:
       boardId:
@@ -117,22 +87,12 @@ actions:
     output:
       type: list
       contentType: application/json
-      properties:
-        id:
-          help: The ID of list.
-          type: string
-        name:
-          help: The name of the list.
-          type: string
-        closed:
-          help: Returns true/false.
-          type: int
   addCard:
     help: Create new card on list.
     http:
       port: 3000
       method: post
-      path: /addcard
+      path: /addCard
       contentType: application/json
     arguments:
       name:
@@ -152,22 +112,12 @@ actions:
     output:
       type: object
       contentType: application/json
-      properties:
-        success:
-          help: Returns true/false.
-          type: string
-        message:
-          help: The success message or error message if occurred.
-          type: string
-        statusCode:
-          help: Returns http status code.
-          type: int
   getCards:
     help: Get all card details from all lists.
     http:
       port: 3000
       method: post
-      path: /getcards
+      path: /getCards
       contentType: application/json
     arguments:
       boardId:
@@ -178,34 +128,12 @@ actions:
     output:
       type: list
       contentType: application/json
-      properties:
-        id:
-          help: The ID of card from list.
-          type: string
-        name:
-          help: The name of card.
-          type: string
-        pos:
-          help: The position of card in list.
-          type: int
-        shortUrl:
-          help: The url of card.
-          type: string
-        url:
-          help: The url of card.
-          type: string
-        idBoard:
-          help: The ID of board.
-          type: string
-        idList:
-          help: The ID of list.
-          type: string
   moveCard:
     help: Move card from one list to another.
     http:
       port: 3000
       method: post
-      path: /movecard
+      path: /moveCard
       contentType: application/json
     arguments:
       cardId:
@@ -221,22 +149,12 @@ actions:
     output:
       type: object
       contentType: application/json
-      properties:
-        success:
-          help: Returns true/false.
-          type: string
-        message:
-          help: The success message or error message if occurred.
-          type: string
-        statusCode:
-          help: Returns http status code.
-          type: int
   copyCard:
     help: Copy card from one list to another.
     http:
       port: 3000
       method: post
-      path: /copycard
+      path: /copyCard
       contentType: application/json
     arguments:
       cardId:
@@ -252,28 +170,6 @@ actions:
     output:
       type: object
       contentType: application/json
-      properties:
-        id:
-          help: The ID of card from list.
-          type: string
-        name:
-          help: The name of card.
-          type: string
-        pos:
-          help: The position of card in list.
-          type: int
-        shortUrl:
-          help: The url of card.
-          type: string
-        url:
-          help: The url of card.
-          type: string
-        idBoard:
-          help: The ID of board.
-          type: string
-        idList:
-          help: The ID of list.
-          type: string
   receive:
     help: Start receiving newly added card details from board list.
     events:
@@ -303,34 +199,12 @@ actions:
         output:
           contentType: application/json
           type: object
-          properties:
-            id:
-              help: The ID of card from list.
-              type: string
-            name:
-              help: The name of card.
-              type: string
-            pos:
-              help: The position of card in list.
-              type: int
-            shortUrl:
-              help: The url of card.
-              type: string
-            url:
-              help: The url of card.
-              type: string
-            idBoard:
-              help: The ID of board.
-              type: string
-            idList:
-              help: The ID of list.
-              type: string
   deleteBoard:
     help: Delete board from trello.
     http:
       port: 3000
       method: post
-      path: /deleteboard
+      path: /deleteBoard
       contentType: application/json
     arguments:
       boardId:
@@ -341,22 +215,12 @@ actions:
     output:
       type: object
       contentType: application/json
-      properties:
-        success:
-          help: Returns true/false.
-          type: string
-        message:
-          help: The success message or error message if occurred.
-          type: string
-        statusCode:
-          help: Returns http status code.
-          type: int
   getAllBoards:
     help: Get board details from trello.
     http:
       port: 3000
       method: post
-      path: /getallboards
+      path: /getAllBoards
       contentType: application/json
     arguments:
       username:
@@ -367,22 +231,6 @@ actions:
     output:
       type: list
       contentType: application/json
-      properties:
-        id:
-          help: The ID of board.
-          type: string
-        name:
-          help: The name of the board.
-          type: string
-        closed:
-          help: Returns true/false.
-          type: boolean
-        url:
-          help: Returns URL of the trello board.
-          type: string
-        prefs:
-          help: The preference of the trello board.
-          type: object
 environment:
   API_KEY:
     type: string
