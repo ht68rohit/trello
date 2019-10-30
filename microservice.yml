@@ -32,7 +32,7 @@ actions:
         required: true
         help: The name for new board.
     output:
-      type: object
+      type: map
       contentType: application/json
   getBoard:
     help: Get board details from trello.
@@ -48,7 +48,7 @@ actions:
         required: true
         help: The board ID of trello account.
     output:
-      type: object
+      type: map
       contentType: application/json
   createList:
     help: Create new list in trello.
@@ -69,7 +69,7 @@ actions:
         required: true
         help: The name for new list.
     output:
-      type: object
+      type: map
       contentType: application/json
   getLists:
     help: Get all list details from trello board.
@@ -110,7 +110,7 @@ actions:
         required: true
         help: The ID of list where card has to add. 
     output:
-      type: object
+      type: map
       contentType: application/json
   getCards:
     help: Get all card details from all lists.
@@ -147,7 +147,7 @@ actions:
         required: true
         help: The ID of list where to move the card.
     output:
-      type: object
+      type: map
       contentType: application/json
   copyCard:
     help: Copy card from one list to another.
@@ -168,7 +168,39 @@ actions:
         required: true
         help: The ID of list where to copy the card.
     output:
-      type: object
+      type: map
+      contentType: application/json
+  deleteBoard:
+    help: Delete board from trello.
+    http:
+      port: 3000
+      method: post
+      path: /deleteBoard
+      contentType: application/json
+    arguments:
+      boardId:
+        type: string
+        in: requestBody
+        required: true
+        help: The board ID to delete.
+    output:
+      type: map
+      contentType: application/json
+  getAllBoards:
+    help: Get board details from trello.
+    http:
+      port: 3000
+      method: post
+      path: /getAllBoards
+      contentType: application/json
+    arguments:
+      username:
+        type: string
+        in: requestBody
+        required: true
+        help: The username of trello account.
+    output:
+      type: list
       contentType: application/json
   receive:
     help: Start receiving newly added card details from board list.
@@ -198,39 +230,7 @@ actions:
             contentType: application/json
         output:
           contentType: application/json
-          type: object
-  deleteBoard:
-    help: Delete board from trello.
-    http:
-      port: 3000
-      method: post
-      path: /deleteBoard
-      contentType: application/json
-    arguments:
-      boardId:
-        type: string
-        in: requestBody
-        required: true
-        help: The board ID to delete.
-    output:
-      type: object
-      contentType: application/json
-  getAllBoards:
-    help: Get board details from trello.
-    http:
-      port: 3000
-      method: post
-      path: /getAllBoards
-      contentType: application/json
-    arguments:
-      username:
-        type: string
-        in: requestBody
-        required: true
-        help: The username of trello account.
-    output:
-      type: list
-      contentType: application/json
+          type: map
 environment:
   API_KEY:
     type: string
