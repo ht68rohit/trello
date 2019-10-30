@@ -2,6 +2,10 @@ omg: 1
 lifecycle:
   startup:
     command: ["microservice-trello"]
+health:
+  http:
+    path: /health
+    port: 3000
 info:
   version: 1.0.0
   title: Trello

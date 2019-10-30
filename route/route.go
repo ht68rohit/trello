@@ -17,6 +17,12 @@ type Routes []Route
 
 var routes = Routes{
     Route{
+        "HealthCheck",
+        "GET",
+        "/health",
+        trello.HealthCheck,
+    },
+    Route{
         "GetCards",
         "POST",
         "/getcards",

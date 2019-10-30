@@ -56,6 +56,13 @@ var finalList *trello.List
 var cards []*trello.Card
 var oldCard *trello.Card
 
+//HealthCheck Trello
+func HealthCheck(responseWriter http.ResponseWriter, request *http.Request) {
+
+	bytes, _ := json.Marshal("OK")
+	result.WriteJsonResponse(responseWriter, bytes, http.StatusOK)
+}
+
 //GetCards trello
 func GetCards(responseWriter http.ResponseWriter, request *http.Request) {
 
@@ -512,7 +519,7 @@ func getMessageUpdates(listID string, sub Subscribe, existing bool) {
 	}
 
 	if existing && !isExistingPrinted {
-		resp, err := c.Send(context.Background(), event)
+		_, resp, err := c.Send(context.Background(), event)
 		if err != nil {
 			log.Printf("failed to send: %v", err)
 		}
@@ -520,7 +527,7 @@ func getMessageUpdates(listID string, sub Subscribe, existing bool) {
 		finalCards = nil
 		isExistingPrinted = true
 	} else if oldCard != nil && finalCard.ID != oldCard.ID {
-		resp, err := c.Send(context.Background(), event)
+		_, resp, err := c.Send(context.Background(), event)
 		if err != nil {
 			log.Printf("failed to send: %v", err)
 		}
