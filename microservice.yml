@@ -1,11 +1,4 @@
 omg: 1
-lifecycle:
-  startup:
-    command: ["microservice-trello"]
-health:
-  http:
-    path: /health
-    port: 3000
 info:
   version: 1.0.0
   title: Trello
@@ -17,6 +10,13 @@ info:
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
+lifecycle:
+  startup:
+    command: ["microservice-trello"]
+health:
+  http:
+    path: /health
+    port: 3000
 actions:
   createBoard:
     help: Create new board in trello.
